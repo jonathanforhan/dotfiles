@@ -37,28 +37,34 @@ vim.opt.updatetime = 50
 -- PLUGINS --
 require('lazy').setup({
   -- auto-pairs
-  { 'windwp/nvim-autopairs', event = "InsertEnter", opts = {} },
+  { 'windwp/nvim-autopairs',            event = "InsertEnter", opts = {} },
   -- lsp-zero
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
-  { 'VonHeikemen/lsp-zero.nvim', branch = 'v3.x', lazy = true },
+  { 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x',       lazy = true },
   {
     'neovim/nvim-lspconfig',
-    dependencies = {{ 'hrsh7th/cmp-nvim-lsp' }},
+    dependencies = { { 'hrsh7th/cmp-nvim-lsp' } },
   },
   {
     'hrsh7th/nvim-cmp',
-    dependencies = {{ 'L3MON4D3/LuaSnip' }},
+    dependencies = { { 'L3MON4D3/LuaSnip' } },
   },
   -- nvim-tree
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function() require('nvim-tree').setup({}) end
+    config = function()
+      require('nvim-tree').setup({
+        view = { side = "right" },
+        actions = { open_file = { quit_on_open = true } }
+      })
+    end
   },
   -- telescope
   {
-    'nvim-telescope/telescope.nvim', tag = '0.1.3',
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.3',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
@@ -103,12 +109,14 @@ require('lazy').setup({
         sync_install = false,
         auto_install = true,
         highlight = {
-  	  enable = true,
-  	  additional_vim_regex_highlighting = false,
+          enable = true,
+          additional_vim_regex_highlighting = false,
         }
       })
     end
-  }
+  },
+  -- vim-gitgutter
+  { 'airblade/vim-gitgutter' }
 })
 
 -- CONFIG --
@@ -124,14 +132,20 @@ require('mason-lspconfig').setup({
 local cmp = require('cmp')
 cmp.setup({
   mapping = cmp.mapping.preset.insert({
-    ['<cr>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<tab>'] = cmp.mapping.select_next_item(),
     ['<S-tab>'] = cmp.mapping.select_prev_item(),
   })
 })
 
 -- REMAP --
-vim.keymap.set('n', '<leader>e', ":NvimTreeFocus<CR>")
+vim.keymap.set('n', '<leader>w', ":LspZeroFormat<CR>:w<CR>")
+vim.keymap.set('n', '<leader>q', ":LspZeroFormat<CR>:wq<CR>")
+
+vim.keymap.set('n', '<leader>o', ":NvimTreeFocus<CR>")
+vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>")
+
+vim.keymap.set('n', '<leader>b', ":Telescope buffers<CR>")
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
@@ -140,19 +154,16 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fr', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
 
-vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv")
-vim.keymap.set("v", "K", ":m '>-2<cr>gv=gv")
-
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
 
 -- EXTRA --
-vim.cmd[[:hi DiagnosticVirtualTextError guibg=NONE]]
-vim.cmd[[:hi DiagnosticVirtualTextHint guibg=NONE]]
-vim.cmd[[:hi DiagnosticVirtualTextInfo guibg=NONE]]
-vim.cmd[[:hi DiagnosticVirtualTextWarn guibg=NONE]]
-vim.cmd[[:autocmd BufEnter *.[jt]s :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd[[:autocmd BufEnter *.[jt]sx :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd[[:autocmd BufEnter *.lua :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd[[:autocmd BufEnter *.html :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
+vim.cmd [[:hi DiagnosticVirtualTextError guibg=NONE]]
+vim.cmd [[:hi DiagnosticVirtualTextHint guibg=NONE]]
+vim.cmd [[:hi DiagnosticVirtualTextInfo guibg=NONE]]
+vim.cmd [[:hi DiagnosticVirtualTextWarn guibg=NONE]]
 
+vim.cmd [[:autocmd BufEnter *.[jt]s :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
+vim.cmd [[:autocmd BufEnter *.[jt]sx :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
+vim.cmd [[:autocmd BufEnter *.lua :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
+vim.cmd [[:autocmd BufEnter *.html :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
