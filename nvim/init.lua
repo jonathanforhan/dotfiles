@@ -59,6 +59,7 @@ require('lazy').setup({
         view = { side = "right" },
         actions = { open_file = { quit_on_open = true } }
       })
+      vim.cmd [[:NvimTreeResize 50<CR>]]
     end
   },
   -- telescope
@@ -89,13 +90,10 @@ require('lazy').setup({
           functions = {},
           variables = {},
           sidebars = "transparent",
-          floats = "dark",
+          floats = "transparent",
         },
         sidebars = { "qf", "help" },
         day_brightness = 0.3,
-        hide_inactive_statusline = false,
-        dim_inactive = false,
-        lualine_bold = false,
       })
       vim.cmd([[colorscheme tokyonight]])
     end
@@ -147,6 +145,9 @@ vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>")
 
 vim.keymap.set('n', '<leader>b', ":Telescope buffers<CR>")
 
+vim.keymap.set('n', '<leader>n', ":bnext<CR>")
+vim.keymap.set('n', '<leader>p', ":bprev<CR>")
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
@@ -167,3 +168,5 @@ vim.cmd [[:autocmd BufEnter *.[jt]s :setlocal tabstop=2 shiftwidth=2 softtabstop
 vim.cmd [[:autocmd BufEnter *.[jt]sx :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
 vim.cmd [[:autocmd BufEnter *.lua :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
 vim.cmd [[:autocmd BufEnter *.html :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
+vim.cmd [[:autocmd BufNewFile,BufRead *.wgsl :setlocal filetype=wgsl tabstop=2 shiftwidth=2 softtabstop=2]]
+
