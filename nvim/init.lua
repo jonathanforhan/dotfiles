@@ -1,12 +1,12 @@
 -- INIT --
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
     lazypath,
   })
 end
@@ -14,8 +14,6 @@ vim.opt.rtp:prepend(lazypath)
 
 -- GENERAL --
 vim.g.mapleader = ' '
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.g.termguicolors = true
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -25,19 +23,44 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 vim.opt.wrap = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = 'yes'
-vim.opt.isfname:append("@-@")
+vim.opt.isfname:append('@-@')
 vim.opt.updatetime = 50
+
+-- AUTO GROUPS --
+vim.api.nvim_create_autocmd('Filetype', {
+  pattern = 'wgsl',
+  command = 'setlocal ft=wgsl'
+})
+
+vim.api.nvim_create_augroup('set_indent', { clear = true })
+vim.api.nvim_create_autocmd('Filetype', {
+  group = 'set_indent',
+  pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' },
+  command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
+})
+
+vim.api.nvim_create_augroup('highlight', { clear = true })
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = 'highlight',
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextError', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextInfo', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextWarn', { bg = 'none' })
+  end
+})
 
 -- PLUGINS --
 require('lazy').setup({
   -- auto-pairs
-  { 'windwp/nvim-autopairs',            event = "InsertEnter", opts = {} },
+  { 'windwp/nvim-autopairs',            event = 'InsertEnter', opts = {} },
   -- lsp-zero
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
@@ -49,18 +72,6 @@ require('lazy').setup({
   {
     'hrsh7th/nvim-cmp',
     dependencies = { { 'L3MON4D3/LuaSnip' } },
-  },
-  -- nvim-tree
-  {
-    'nvim-tree/nvim-tree.lua',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('nvim-tree').setup({
-        view = { side = "right" },
-        actions = { open_file = { quit_on_open = true } }
-      })
-      vim.cmd [[:NvimTreeResize 50<CR>]]
-    end
   },
   -- telescope
   {
@@ -80,8 +91,8 @@ require('lazy').setup({
     'folke/tokyonight.nvim',
     lazy = false,
     config = function()
-      require("tokyonight").setup({
-        style = "night",
+      require('tokyonight').setup({
+        style = 'night',
         transparent = true,
         terminal_colors = true,
         styles = {
@@ -89,13 +100,12 @@ require('lazy').setup({
           keywords = { italic = true },
           functions = {},
           variables = {},
-          sidebars = "transparent",
-          floats = "transparent",
+          sidebars = 'transparent',
+          floats = 'transparent',
         },
-        sidebars = { "qf", "help" },
-        day_brightness = 0.3,
+        sidebars = { 'qf', 'help' },
       })
-      vim.cmd([[colorscheme tokyonight]])
+      vim.cmd.colorscheme('tokyonight')
     end
   },
   -- treesitter
@@ -103,7 +113,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'javascript', 'typescript', 'python', 'rust' },
+        ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'javascript', 'typescript', 'python', 'go', 'rust' },
         sync_install = false,
         auto_install = true,
         highlight = {
@@ -120,7 +130,7 @@ require('lazy').setup({
 -- CONFIG --
 -- lsp-zero
 local lsp_zero = require('lsp-zero')
-lsp_zero.on_attach(function(client, bufnr)
+lsp_zero.on_attach(function(_, bufnr)
   lsp_zero.default_keymaps({ buffer = bufnr })
 end)
 require('mason').setup({})
@@ -135,38 +145,25 @@ cmp.setup({
     ['<S-tab>'] = cmp.mapping.select_prev_item(),
   })
 })
+require('lspconfig').lua_ls.setup {
+  settings = {
+    Lua = {
+      diagnostics = { globals = { 'vim' } },
+      telemetry = { enable = false }
+    }
+  }
+}
 
 -- REMAP --
-vim.keymap.set('n', '<leader>w', ":LspZeroFormat<CR>:w<CR>")
-vim.keymap.set('n', '<leader>q', ":LspZeroFormat<CR>:wq<CR>")
-
-vim.keymap.set('n', '<leader>o', ":NvimTreeFocus<CR>")
-vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>")
-
-vim.keymap.set('n', '<leader>b', ":Telescope buffers<CR>")
-
-vim.keymap.set('n', '<leader>n', ":bnext<CR>")
-vim.keymap.set('n', '<leader>p', ":bprev<CR>")
+vim.keymap.set('n', '<leader>w', ':LspZeroFormat<CR>:w<CR>')
+vim.keymap.set('n', '<leader>p', ':b#<CR>')
+vim.keymap.set('n', '<leader>e', ':Ex<CR>')
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fr', builtin.oldfiles, {})
-vim.keymap.set('n', '<leader>gf', builtin.git_files, {})
+vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+vim.keymap.set('n', '<leader>f', builtin.find_files, {})
+vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>r', builtin.oldfiles, {})
+vim.keymap.set('n', '<leader>g', builtin.git_files, {})
 
-vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
-
--- EXTRA --
-vim.cmd [[:hi DiagnosticVirtualTextError guibg=NONE]]
-vim.cmd [[:hi DiagnosticVirtualTextHint guibg=NONE]]
-vim.cmd [[:hi DiagnosticVirtualTextInfo guibg=NONE]]
-vim.cmd [[:hi DiagnosticVirtualTextWarn guibg=NONE]]
-
-vim.cmd [[:autocmd BufEnter *.[jt]s :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd [[:autocmd BufEnter *.[jt]sx :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd [[:autocmd BufEnter *.lua :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd [[:autocmd BufEnter *.html :setlocal tabstop=2 shiftwidth=2 softtabstop=2]]
-vim.cmd [[:autocmd BufNewFile,BufRead *.wgsl :setlocal filetype=wgsl tabstop=2 shiftwidth=2 softtabstop=2]]
-
+vim.keymap.set('n', 'Q', '<nop>')
