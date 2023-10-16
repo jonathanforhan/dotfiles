@@ -33,8 +33,10 @@ vim.opt.isfname:append('@-@')
 vim.opt.updatetime = 50
 
 -- AUTO GROUPS --
-vim.api.nvim_create_autocmd('Filetype', {
-  pattern = 'wgsl',
+vim.api.nvim_create_augroup('set_ft', { clear = true })
+vim.api.nvim_create_autocmd('BufEnter', {
+  group = 'set_ft',
+  pattern = '*.wgsl',
   command = 'setlocal ft=wgsl'
 })
 
@@ -50,10 +52,14 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   group = 'highlight',
   pattern = '*',
   callback = function()
-    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextError', { bg = 'none' })
-    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { bg = 'none' })
-    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextInfo', { bg = 'none' })
-    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextWarn', { bg = 'none' })
+    for _, x in ipairs({
+      'DiagnosticVirtualTextError',
+      'DiagnosticVirtualTextHint',
+      'DiagnosticVirtualTextInfo',
+      'DiagnosticVirtualTextWarn'
+    }) do
+      vim.api.nvim_set_hl(0, x, { bg = 'none' })
+    end
   end
 })
 
@@ -156,8 +162,6 @@ require('lspconfig').lua_ls.setup {
 
 -- REMAP --
 vim.keymap.set('n', '<leader>w', ':LspZeroFormat<CR>:w<CR>')
-vim.keymap.set('n', '<leader>p', ':b#<CR>')
-vim.keymap.set('n', '<leader>e', ':Ex<CR>')
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
