@@ -33,34 +33,23 @@ vim.opt.isfname:append('@-@')
 vim.opt.updatetime = 50
 
 -- AUTO GROUPS --
-vim.api.nvim_create_augroup('set_ft', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
-  group = 'set_ft',
   pattern = '*.wgsl',
   command = 'setlocal ft=wgsl'
 })
 
-vim.api.nvim_create_augroup('set_indent', { clear = true })
 vim.api.nvim_create_autocmd('Filetype', {
-  group = 'set_indent',
   pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' },
   command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
 })
 
-vim.api.nvim_create_augroup('highlight', { clear = true })
 vim.api.nvim_create_autocmd('ColorScheme', {
-  group = 'highlight',
-  pattern = '*',
-  callback = function()
-    for _, x in ipairs({
-      'DiagnosticVirtualTextError',
-      'DiagnosticVirtualTextHint',
-      'DiagnosticVirtualTextInfo',
-      'DiagnosticVirtualTextWarn'
-    }) do
-      vim.api.nvim_set_hl(0, x, { bg = 'none' })
-    end
-  end
+  command = [[
+    :hi DiagnosticVirtualTextError guibg=NONE
+    :hi DiagnosticVirtualTextHint guibg=NONE
+    :hi DiagnosticVirtualTextInfo guibg=NONE
+    :hi DiagnosticVirtualTextWarn guibg=NONE
+  ]]
 })
 
 -- PLUGINS --
