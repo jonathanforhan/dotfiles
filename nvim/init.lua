@@ -151,8 +151,11 @@ require('lspconfig').lua_ls.setup {
 
 -- REMAP --
 local builtin = require('telescope.builtin')
-local function grep_dir()
+local function find_dir()
   builtin.find_files({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
+end
+local function grep_dir()
+  builtin.live_grep({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
 end
 
 vim.keymap.set('n', '<leader>w', '<cmd>LspZeroFormat<cr><cmd>w<cr>')
@@ -163,6 +166,7 @@ vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 vim.keymap.set('n', '<leader>g', builtin.git_files, {})
 vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>F', find_dir, {})
 vim.keymap.set('n', '<leader>S', grep_dir, {})
 
 vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, {})
