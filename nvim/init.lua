@@ -32,7 +32,7 @@ vim.opt.signcolumn = 'yes'
 vim.opt.isfname:append('@-@')
 vim.opt.updatetime = 50
 
--- AUTO GROUPS --
+-- AUTO COMMANDS --
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '*.wgsl',
   command = 'setlocal ft=wgsl'
@@ -119,7 +119,7 @@ require('lazy').setup({
     end
   },
   -- vim-gitgutter
-  { 'airblade/vim-gitgutter' }
+  { 'airblade/vim-gitgutter' },
 })
 
 -- CONFIG --
@@ -150,13 +150,25 @@ require('lspconfig').lua_ls.setup {
 }
 
 -- REMAP --
-vim.keymap.set('n', '<leader>w', ':LspZeroFormat<CR>:w<CR>')
-
 local builtin = require('telescope.builtin')
+local function grep_dir()
+  builtin.find_files({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
+end
+
+vim.keymap.set('n', '<leader>w', '<cmd>LspZeroFormat<cr><cmd>w<cr>')
+vim.keymap.set('n', '<leader>p', '<cmd>b#<cr>')
+
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>r', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>g', builtin.git_files, {})
+vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
+vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>S', grep_dir, {})
+
+vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, {})
+vim.keymap.set('n', '<leader>i', vim.diagnostic.open_float, {})
+vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, {})
+vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
+vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 
 vim.keymap.set('n', 'Q', '<nop>')
