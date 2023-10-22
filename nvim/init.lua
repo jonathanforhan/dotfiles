@@ -33,9 +33,13 @@ vim.opt.isfname:append('@-@')
 vim.opt.updatetime = 50
 
 -- AUTO COMMANDS --
-vim.api.nvim_create_autocmd('BufEnter', {
+vim.api.nvim_create_autocmd('BufRead', {
   pattern = '*.wgsl',
   command = 'setlocal ft=wgsl'
+})
+
+vim.api.nvim_create_autocmd('BufRead', {
+  command = 'ColorizerAttachToBuffer'
 })
 
 vim.api.nvim_create_autocmd('Filetype', {
@@ -56,6 +60,8 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 require('lazy').setup({
   -- auto-pairs
   { 'windwp/nvim-autopairs',            event = 'InsertEnter', opts = {} },
+  -- colorizer --
+  { 'norcalli/nvim-colorizer.lua',      lazy = false },
   -- lsp-zero
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
@@ -151,11 +157,8 @@ require('lspconfig').lua_ls.setup {
 
 -- REMAP --
 local builtin = require('telescope.builtin')
-local function find_dir()
-  builtin.find_files({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
-end
-local function grep_dir()
-  builtin.live_grep({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
+local function any_dir(fn)
+  fn({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
 end
 
 vim.keymap.set('n', '<leader>w', '<cmd>LspZeroFormat<cr><cmd>w<cr>')
@@ -166,12 +169,13 @@ vim.keymap.set('n', '<leader>f', builtin.find_files, {})
 vim.keymap.set('n', '<leader>g', builtin.git_files, {})
 vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
 vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>F', find_dir, {})
-vim.keymap.set('n', '<leader>S', grep_dir, {})
+vim.keymap.set('n', '<leader>F', function() any_dir(builtin.find_files) end, {})
+vim.keymap.set('n', '<leader>S', function() any_dir(builtin.live_grep) end, {})
 
 vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, {})
 vim.keymap.set('n', '<leader>i', vim.diagnostic.open_float, {})
 vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, {})
+vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 
