@@ -37,13 +37,23 @@ vim.api.nvim_create_autocmd('BufRead', {
   pattern = '*.wgsl',
   command = 'setlocal ft=wgsl'
 })
+vim.api.nvim_create_autocmd('BufRead', {
+  pattern = { '*.vert', '*.frag', '*.tesc', '*.geom', '*.glsl' },
+  command = 'setlocal ft=glsl'
+})
 
 vim.api.nvim_create_autocmd('BufRead', {
   command = 'ColorizerAttachToBuffer'
 })
 
+vim.api.nvim_create_autocmd({ 'BufWrite', 'BufEnter' }, {
+  callback = function()
+    require('lint').try_lint()
+  end
+})
+
 vim.api.nvim_create_autocmd('Filetype', {
-  pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' },
+  pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua', 'cpp' },
   command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
 })
 
@@ -89,6 +99,24 @@ require('lazy').setup({
         }
       })
     end
+  },
+  -- nvim lint --
+  { 'mfussenegger/nvim-lint', lazy = false },
+  -- nvim treesitter cpp tools
+  {
+    "Badhi/nvim-treesitter-cpp-tools",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = function()
+      return {
+        preview = {
+          quit = "q",
+          accept = "<cr>",
+        },
+        header_extension = "hpp",
+        source_extension = "cpp",
+      }
+    end,
+    config = true,
   },
   -- telescope
   {
@@ -145,15 +173,16 @@ require('lazy').setup({
 })
 
 -- CONFIG --
--- lsp-zero
 local lsp_zero = require('lsp-zero')
 lsp_zero.on_attach(function(_, bufnr)
   lsp_zero.default_keymaps({ buffer = bufnr })
 end)
+
 require('mason').setup({})
 require('mason-lspconfig').setup({
   handlers = { lsp_zero.default_setup }
 })
+
 local cmp = require('cmp')
 cmp.setup({
   mapping = cmp.mapping.preset.insert({
@@ -162,13 +191,37 @@ cmp.setup({
     ['<S-tab>'] = cmp.mapping.select_prev_item(),
   })
 })
-require('lspconfig').lua_ls.setup {
+
+local lspconfig = require('lspconfig')
+lspconfig.lua_ls.setup {
   settings = {
     Lua = {
       diagnostics = { globals = { 'vim' } },
       telemetry = { enable = false }
     }
   }
+}
+
+lspconfig.clangd.setup({
+  cmd = {
+    'clangd',
+    '--background-index',
+    '--clang-tidy',
+    '--completion-style=detailed',
+    '--cross-file-rename',
+    '--header-insertion=iwyu',
+    '--fallback-style=llvm'
+  },
+  init_options = {
+    clangdFileStatus = true,
+    usePlaceholders = true,
+    completeUnimported = true,
+    semanticHighlighting = true,
+  },
+})
+
+require('lint').linters_by_ft = {
+  cpp = { 'cppcheck' }
 }
 
 -- REMAP --
@@ -188,11 +241,18 @@ vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>F', function() any_dir(builtin.find_files) end, {})
 vim.keymap.set('n', '<leader>S', function() any_dir(builtin.live_grep) end, {})
 
+vim.keymap.set('n', '<leader>m', '<cmd>TSCppDefineClassFunc<cr><cmd>ClangdSwitchSourceHeader<cr>')
+vim.keymap.set('v', '<leader>m', '<cmd>TSCppDefineClassFunc<cr><cmd>ClangdSwitchSourceHeader<cr>')
+vim.keymap.set('n', '<leader>M', '<cmd>TSCppDefineClassFunc<cr>')
+vim.keymap.set('v', '<leader>M', '<cmd>TSCppDefineClassFunc<cr>')
+
 vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, {})
 vim.keymap.set('n', '<leader>i', vim.diagnostic.open_float, {})
 vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, {})
 vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
+
+vim.keymap.set('n', '<C-k><C-o>', '<cmd>ClangdSwitchSourceHeader<cr>')
 
 vim.keymap.set('n', 'Q', '<nop>')
