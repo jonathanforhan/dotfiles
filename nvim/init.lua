@@ -52,8 +52,12 @@ vim.api.nvim_create_autocmd({ 'BufWrite', 'BufEnter' }, {
   end
 })
 
+vim.api.nvim_create_autocmd({ 'BufWrite' }, {
+  command = 'LspZeroFormat'
+})
+
 vim.api.nvim_create_autocmd('Filetype', {
-  pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua', 'cpp' },
+  pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' },
   command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
 })
 
@@ -180,19 +184,13 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  handlers = { lsp_zero.default_setup }
-})
-
-local cmp = require('cmp')
-cmp.setup({
-  mapping = cmp.mapping.preset.insert({
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<tab>'] = cmp.mapping.select_next_item(),
-    ['<S-tab>'] = cmp.mapping.select_prev_item(),
-  })
+  handlers = {
+    lsp_zero.default_setup,
+  }
 })
 
 local lspconfig = require('lspconfig')
+
 lspconfig.lua_ls.setup {
   settings = {
     Lua = {
@@ -210,7 +208,6 @@ lspconfig.clangd.setup({
     '--completion-style=detailed',
     '--cross-file-rename',
     '--header-insertion=iwyu',
-    '--fallback-style=llvm'
   },
   init_options = {
     clangdFileStatus = true,
@@ -218,6 +215,15 @@ lspconfig.clangd.setup({
     completeUnimported = true,
     semanticHighlighting = true,
   },
+})
+
+local cmp = require('cmp')
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<tab>'] = cmp.mapping.select_next_item(),
+    ['<S-tab>'] = cmp.mapping.select_prev_item(),
+  })
 })
 
 require('lint').linters_by_ft = {
@@ -230,7 +236,6 @@ local function any_dir(fn)
   fn({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
 end
 
-vim.keymap.set('n', '<leader>w', '<cmd>LspZeroFormat<cr><cmd>w<cr>')
 vim.keymap.set('n', '<leader>p', '<cmd>b#<cr>')
 
 vim.keymap.set('n', '<leader>b', builtin.buffers, {})
