@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 -- GENERAL --
 vim.g.mapleader = ' '
 vim.g.termguicolors = true
-vim.opt.nu = true
+vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
@@ -42,10 +42,6 @@ vim.api.nvim_create_autocmd('BufRead', {
   command = 'setlocal ft=glsl'
 })
 
-vim.api.nvim_create_autocmd('BufRead', {
-  command = 'ColorizerAttachToBuffer'
-})
-
 vim.api.nvim_create_autocmd({ 'BufWrite', 'BufEnter' }, {
   callback = function()
     require('lint').try_lint()
@@ -53,7 +49,9 @@ vim.api.nvim_create_autocmd({ 'BufWrite', 'BufEnter' }, {
 })
 
 vim.api.nvim_create_autocmd({ 'BufWrite' }, {
-  command = 'LspZeroFormat'
+  callback = function()
+    vim.lsp.buf.format()
+  end
 })
 
 vim.api.nvim_create_autocmd('Filetype', {
@@ -61,21 +59,17 @@ vim.api.nvim_create_autocmd('Filetype', {
   command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
 })
 
-vim.api.nvim_create_autocmd('ColorScheme', {
-  command = [[
-    :hi DiagnosticVirtualTextError guibg=NONE
-    :hi DiagnosticVirtualTextHint guibg=NONE
-    :hi DiagnosticVirtualTextInfo guibg=NONE
-    :hi DiagnosticVirtualTextWarn guibg=NONE
-  ]]
-})
-
 -- PLUGINS --
 require('lazy').setup({
   -- auto-pairs
   { 'windwp/nvim-autopairs',            event = 'InsertEnter', opts = {} },
   -- colorizer --
-  { 'norcalli/nvim-colorizer.lua',      lazy = false },
+  {
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup({ 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' })
+    end
+  },
   -- lsp-zero
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
@@ -97,9 +91,7 @@ require('lazy').setup({
       require('lualine').setup({
         options = { component_separators = '', section_separators = '' },
         sections = {
-          lualine_a = {
-            { 'mode', fmt = function(_) return 'λ' end }
-          }
+          lualine_a = { { 'mode', fmt = function(_) return 'λ' end } }
         }
       })
     end
@@ -155,6 +147,12 @@ require('lazy').setup({
         sidebars = { 'qf', 'help' },
       })
       vim.cmd.colorscheme('tokyonight')
+      vim.cmd [[
+        hi DiagnosticVirtualTextError guibg=NONE
+        hi DiagnosticVirtualTextHint guibg=NONE
+        hi DiagnosticVirtualTextInfo guibg=NONE
+        hi DiagnosticVirtualTextWarn guibg=NONE
+      ]]
     end
   },
   -- treesitter
@@ -185,9 +183,7 @@ end)
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  handlers = {
-    lsp_zero.default_setup,
-  }
+  handlers = { lsp_zero.default_setup }
 })
 
 local lspconfig = require('lspconfig')
