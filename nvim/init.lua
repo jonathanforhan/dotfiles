@@ -56,7 +56,7 @@ vim.api.nvim_create_autocmd({ 'BufWrite' }, {
 
 vim.api.nvim_create_autocmd('Filetype', {
   pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' },
-  command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
+  command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2 | ColorizerAttachToBuffer'
 })
 
 -- PLUGINS --
@@ -64,12 +64,7 @@ require('lazy').setup({
   -- auto-pairs
   { 'windwp/nvim-autopairs',            event = 'InsertEnter', opts = {} },
   -- colorizer --
-  {
-    'norcalli/nvim-colorizer.lua',
-    config = function()
-      require('colorizer').setup({ 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' })
-    end
-  },
+  { 'norcalli/nvim-colorizer.lua' },
   -- lsp-zero
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
@@ -106,7 +101,7 @@ require('lazy').setup({
       return {
         preview = {
           quit = "q",
-          accept = "<cr>",
+          accept = "<CR>",
         },
         header_extension = "hpp",
         source_extension = "cpp",
@@ -148,10 +143,8 @@ require('lazy').setup({
       })
       vim.cmd.colorscheme('tokyonight')
       vim.cmd [[
-        hi DiagnosticVirtualTextError guibg=NONE
-        hi DiagnosticVirtualTextHint guibg=NONE
-        hi DiagnosticVirtualTextInfo guibg=NONE
-        hi DiagnosticVirtualTextWarn guibg=NONE
+        hi DiagnosticVirtualTextInfo guibg=NONE | hi DiagnosticVirtualTextHint guibg=NONE
+        hi DiagnosticVirtualTextWarn guibg=NONE | hi DiagnosticVirtualTextError guibg=NONE
       ]]
     end
   },
@@ -218,8 +211,8 @@ local cmp = require('cmp')
 cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
-    ['<tab>'] = cmp.mapping.select_next_item(),
-    ['<S-tab>'] = cmp.mapping.select_prev_item(),
+    ['<TAB>'] = cmp.mapping.select_next_item(),
+    ['<S-TAB>'] = cmp.mapping.select_prev_item(),
   })
 })
 
@@ -233,28 +226,35 @@ local function any_dir(fn)
   fn({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
 end
 
-vim.keymap.set('n', '<leader>p', '<cmd>b#<cr>')
+vim.keymap.set('n', '<LEADER>p', '<CMD>b#<CR>')
 
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-vim.keymap.set('n', '<leader>g', builtin.git_files, {})
-vim.keymap.set('n', '<leader>o', builtin.oldfiles, {})
-vim.keymap.set('n', '<leader>s', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>F', function() any_dir(builtin.find_files) end, {})
-vim.keymap.set('n', '<leader>S', function() any_dir(builtin.live_grep) end, {})
+vim.keymap.set('n', '<LEADER>b', builtin.buffers, {})
+vim.keymap.set('n', '<LEADER>f', builtin.find_files, {})
+vim.keymap.set('n', '<LEADER>g', builtin.git_files, {})
+vim.keymap.set('n', '<LEADER>o', builtin.oldfiles, {})
+vim.keymap.set('n', '<LEADER>s', builtin.live_grep, {})
+vim.keymap.set('n', '<LEADER>F', function() any_dir(builtin.find_files) end, {})
+vim.keymap.set('n', '<LEADER>S', function() any_dir(builtin.live_grep) end, {})
 
-vim.keymap.set('n', '<leader>m', '<cmd>TSCppDefineClassFunc<cr><cmd>ClangdSwitchSourceHeader<cr>')
-vim.keymap.set('v', '<leader>m', '<cmd>TSCppDefineClassFunc<cr><cmd>ClangdSwitchSourceHeader<cr>')
-vim.keymap.set('n', '<leader>M', '<cmd>TSCppDefineClassFunc<cr>')
-vim.keymap.set('v', '<leader>M', '<cmd>TSCppDefineClassFunc<cr>')
+vim.keymap.set('n', '<LEADER>m', '<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>')
+vim.keymap.set('v', '<LEADER>m', '<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>')
+vim.keymap.set('n', '<LEADER>M', '<CMD>TSCppDefineClassFunc<CR>')
+vim.keymap.set('v', '<LEADER>M', '<CMD>TSCppDefineClassFunc<CR>')
 
-vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, {})
-vim.keymap.set('n', '<leader>i', vim.diagnostic.open_float, {})
-vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, {})
+vim.keymap.set('n', '<LEADER>a', vim.lsp.buf.code_action, {})
+vim.keymap.set('n', '<LEADER>i', vim.diagnostic.open_float, {})
+vim.keymap.set('n', '<LEADER>r', vim.lsp.buf.rename, {})
 vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 
-vim.keymap.set('n', '<C-k><C-o>', '<cmd>ClangdSwitchSourceHeader<cr>')
+vim.keymap.set('n', '<C-k><C-o>', '<CMD>ClangdSwitchSourceHeader<CR>')
 
-vim.keymap.set('n', 'Q', '<nop>')
+vim.keymap.set('n', 'Q', '<NOP>')
+
+local function get_char()
+  return vim.fn.getcharstr()
+end
+
+vim.keymap.set('n', '<LEADER>k', function() vim.cmd('exe "normal! a\\<C-k>' .. get_char() .. '*"') end)
+vim.keymap.set('i', '<C-K>', function() vim.cmd('exe "normal! a\\<C-k>' .. get_char() .. '*"') end)
