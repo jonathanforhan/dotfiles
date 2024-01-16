@@ -37,15 +37,10 @@ vim.api.nvim_create_autocmd('BufRead', {
   pattern = '*.wgsl',
   command = 'setlocal ft=wgsl'
 })
+
 vim.api.nvim_create_autocmd('BufRead', {
   pattern = { '*.vert', '*.frag', '*.tesc', '*.geom', '*.glsl' },
   command = 'setlocal ft=glsl'
-})
-
-vim.api.nvim_create_autocmd({ 'BufWrite', 'BufEnter' }, {
-  callback = function()
-    require('lint').try_lint()
-  end
 })
 
 vim.api.nvim_create_autocmd({ 'BufWrite' }, {
@@ -63,12 +58,12 @@ vim.api.nvim_create_autocmd('Filetype', {
 require('lazy').setup({
   -- auto-pairs
   { 'windwp/nvim-autopairs',            event = 'InsertEnter', opts = {} },
-  -- better-digraphs --
+  -- better-digraphs
   {
     'jonathanforhan/best-digraphs.nvim',
     dependencies = { { 'nvim-telescope/telescope.nvim' } }
   },
-  -- colorizer --
+  -- colorizer
   { 'norcalli/nvim-colorizer.lua' },
   -- lsp-zero
   { 'williamboman/mason.nvim' },
@@ -82,7 +77,7 @@ require('lazy').setup({
     'hrsh7th/nvim-cmp',
     dependencies = { { 'L3MON4D3/LuaSnip' } },
   },
-  -- lualine --
+  -- lualine
   {
     'nvim-lualine/lualine.nvim',
     lazy = false,
@@ -96,18 +91,13 @@ require('lazy').setup({
       })
     end
   },
-  -- nvim lint --
-  { 'mfussenegger/nvim-lint', lazy = false },
-  -- nvim treesitter cpp tools
+  -- nvim-treesitter-cpp-tools
   {
     "Badhi/nvim-treesitter-cpp-tools",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = function()
       return {
-        preview = {
-          quit = "q",
-          accept = "<CR>",
-        },
+        preview = { quit = "q", accept = "<CR>" },
         header_extension = "hpp",
         source_extension = "cpp",
       }
@@ -117,7 +107,7 @@ require('lazy').setup({
   -- telescope
   {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.3',
+    tag = '0.1.5',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
@@ -129,7 +119,7 @@ require('lazy').setup({
   },
   -- tokyonight
   {
-    'folke/tokyonight.nvim',
+    'jonathanforhan/tokyonight.nvim',
     lazy = false,
     config = function()
       require('tokyonight').setup({
@@ -141,6 +131,7 @@ require('lazy').setup({
           keywords = { italic = true },
           functions = {},
           variables = {},
+          macros = { bold = true },
           sidebars = 'transparent',
           floats = 'transparent',
         },
@@ -168,6 +159,11 @@ require('lazy').setup({
         indent = { enable = true }
       })
     end
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {}
   },
   -- vim-gitgutter
   { 'airblade/vim-gitgutter' },
@@ -221,18 +217,14 @@ cmp.setup({
   })
 })
 
-require('lint').linters_by_ft = {
-  cpp = { 'cppcheck' }
-}
-
 -- REMAP --
 local builtin = require('telescope.builtin')
 local function any_dir(fn)
   fn({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
 end
 
+-- buffer-navigation
 vim.keymap.set('n', '<LEADER>p', '<CMD>b#<CR>')
-
 vim.keymap.set('n', '<LEADER>b', builtin.buffers, {})
 vim.keymap.set('n', '<LEADER>f', builtin.find_files, {})
 vim.keymap.set('n', '<LEADER>g', builtin.git_files, {})
@@ -240,23 +232,33 @@ vim.keymap.set('n', '<LEADER>o', builtin.oldfiles, {})
 vim.keymap.set('n', '<LEADER>s', builtin.live_grep, {})
 vim.keymap.set('n', '<LEADER>F', function() any_dir(builtin.find_files) end, {})
 vim.keymap.set('n', '<LEADER>S', function() any_dir(builtin.live_grep) end, {})
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
 
+-- git
+vim.keymap.set('n', '<LEADER>G', '<CMD>GitGutterPreviewHunk<CR>')
+
+-- cpp
 vim.keymap.set('n', '<LEADER>m', '<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>')
 vim.keymap.set('v', '<LEADER>m', '<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>')
 vim.keymap.set('n', '<LEADER>M', '<CMD>TSCppDefineClassFunc<CR>')
 vim.keymap.set('v', '<LEADER>M', '<CMD>TSCppDefineClassFunc<CR>')
+vim.keymap.set('n', '<LEADER>h', '<CMD>ClangdSwitchSourceHeader<CR>')
 
+-- lsp
 vim.keymap.set('n', '<LEADER>a', vim.lsp.buf.code_action, {})
 vim.keymap.set('n', '<LEADER>i', vim.diagnostic.open_float, {})
 vim.keymap.set('n', '<LEADER>r', vim.lsp.buf.rename, {})
+vim.keymap.set('n', '<LEADER>t', function() require('trouble').toggle() end)
 vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 
-vim.keymap.set('n', '<C-k><C-o>', '<CMD>ClangdSwitchSourceHeader<CR>')
-
 vim.keymap.set('n', 'Q', '<NOP>')
 
+-- digraphs
 vim.keymap.set('n', '<LEADER>k', function()
   vim.cmd [[lua require('best-digraphs').digraphs('insert')]]
 end)
