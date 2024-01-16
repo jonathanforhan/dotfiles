@@ -63,6 +63,11 @@ vim.api.nvim_create_autocmd('Filetype', {
 require('lazy').setup({
   -- auto-pairs
   { 'windwp/nvim-autopairs',            event = 'InsertEnter', opts = {} },
+  -- better-digraphs --
+  {
+    'jonathanforhan/best-digraphs.nvim',
+    dependencies = { { 'nvim-telescope/telescope.nvim' } }
+  },
   -- colorizer --
   { 'norcalli/nvim-colorizer.lua' },
   -- lsp-zero
@@ -252,9 +257,6 @@ vim.keymap.set('n', '<C-k><C-o>', '<CMD>ClangdSwitchSourceHeader<CR>')
 
 vim.keymap.set('n', 'Q', '<NOP>')
 
-local function get_char()
-  return vim.fn.getcharstr()
-end
-
-vim.keymap.set('n', '<LEADER>k', function() vim.cmd('exe "normal! a\\<C-k>' .. get_char() .. '*"') end)
-vim.keymap.set('i', '<C-K>', function() vim.cmd('exe "normal! a\\<C-k>' .. get_char() .. '*"') end)
+vim.keymap.set('n', '<LEADER>k', function()
+  vim.cmd [[lua require('best-digraphs').digraphs('insert')]]
+end)
