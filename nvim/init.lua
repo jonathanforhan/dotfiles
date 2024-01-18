@@ -50,8 +50,13 @@ vim.api.nvim_create_autocmd({ 'BufWrite' }, {
 })
 
 vim.api.nvim_create_autocmd('Filetype', {
+  pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'lua', 'haskell' },
+  command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
+})
+
+vim.api.nvim_create_autocmd('Filetype', {
   pattern = { 'xml', 'html', 'css', 'javascript', 'typescript', 'jsx', 'tsx', 'yaml', 'lua' },
-  command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2 | ColorizerAttachToBuffer'
+  command = 'ColorizerAttachToBuffer'
 })
 
 -- PLUGINS --
@@ -65,10 +70,9 @@ require('lazy').setup({
   },
   -- colorizer
   { 'norcalli/nvim-colorizer.lua' },
-  -- lsp-zero
+  -- lsp
   { 'williamboman/mason.nvim' },
   { 'williamboman/mason-lspconfig.nvim' },
-  { 'VonHeikemen/lsp-zero.nvim',        branch = 'v3.x',       lazy = true },
   {
     'neovim/nvim-lspconfig',
     dependencies = { { 'hrsh7th/cmp-nvim-lsp' } },
@@ -149,7 +153,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'javascript', 'typescript', 'python', 'go', 'rust' },
+        ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'javascript', 'typescript', 'python', 'go', 'rust', 'haskell' },
         sync_install = false,
         auto_install = true,
         highlight = {
@@ -170,52 +174,78 @@ require('lazy').setup({
 })
 
 -- CONFIG --
-local lsp_zero = require('lsp-zero')
-lsp_zero.on_attach(function(_, bufnr)
-  lsp_zero.default_keymaps({ buffer = bufnr })
-end)
+local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local default_setup = function(server)
+  require('lspconfig')[server].setup({ capabilities = lsp_capabilities })
+end
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-  handlers = { lsp_zero.default_setup }
-})
-
-local lspconfig = require('lspconfig')
-
-lspconfig.lua_ls.setup {
-  settings = {
-    Lua = {
-      diagnostics = { globals = { 'vim' } },
-      telemetry = { enable = false }
-    }
+  handlers = {
+    default_setup,
+    lua_ls = function()
+      require('lspconfig').lua_ls.setup {
+        settings = {
+          Lua = {
+            runtime = { version = 'LuaJIT' },
+            diagnostics = { globals = { 'vim' } },
+            telemetry = { enable = false },
+            workspace = { library = { vim.env.VIMRUNTIME } }
+          }
+        }
+      }
+    end,
+    clangd = function()
+      require('lspconfig').clangd.setup {
+        cmd = {
+          'clangd',
+          '--background-index',
+          '--clang-tidy',
+          '--completion-style=detailed',
+          '--cross-file-rename',
+          '--header-insertion=iwyu',
+        },
+        init_options = {
+          clangdFileStatus = true,
+          usePlaceholders = true,
+          completeUnimported = true,
+          semanticHighlighting = true,
+        }
+      }
+    end
   }
-}
-
-lspconfig.clangd.setup({
-  cmd = {
-    'clangd',
-    '--background-index',
-    '--clang-tidy',
-    '--completion-style=detailed',
-    '--cross-file-rename',
-    '--header-insertion=iwyu',
-  },
-  init_options = {
-    clangdFileStatus = true,
-    usePlaceholders = true,
-    completeUnimported = true,
-    semanticHighlighting = true,
-  },
 })
 
 local cmp = require('cmp')
 cmp.setup({
+  sources = { { name = 'nvim_lsp' } },
   mapping = cmp.mapping.preset.insert({
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ['<TAB>'] = cmp.mapping.select_next_item(),
     ['<S-TAB>'] = cmp.mapping.select_prev_item(),
-  })
+  }),
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
 })
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover,
+  { border = 'rounded' }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help,
+  { border = 'rounded' }
+)
+
+vim.diagnostic.config {
+  float = { border = 'rounded' }
+}
+require('lspconfig.ui.windows').default_options = { border = 'rounded' }
 
 -- REMAP --
 local builtin = require('telescope.builtin')
@@ -225,13 +255,14 @@ end
 
 -- buffer-navigation
 vim.keymap.set('n', '<LEADER>p', '<CMD>b#<CR>')
-vim.keymap.set('n', '<LEADER>b', builtin.buffers, {})
-vim.keymap.set('n', '<LEADER>f', builtin.find_files, {})
-vim.keymap.set('n', '<LEADER>g', builtin.git_files, {})
-vim.keymap.set('n', '<LEADER>o', builtin.oldfiles, {})
-vim.keymap.set('n', '<LEADER>s', builtin.live_grep, {})
-vim.keymap.set('n', '<LEADER>F', function() any_dir(builtin.find_files) end, {})
-vim.keymap.set('n', '<LEADER>S', function() any_dir(builtin.live_grep) end, {})
+vim.keymap.set('n', '<LEADER>b', builtin.buffers)
+vim.keymap.set('n', '<LEADER>f', builtin.find_files)
+vim.keymap.set('n', '<LEADER>g', builtin.git_files)
+vim.keymap.set('n', '<LEADER>o', builtin.oldfiles)
+vim.keymap.set('n', '<LEADER>s', builtin.live_grep)
+vim.keymap.set('n', '<LEADER>F', function() any_dir(builtin.find_files) end)
+vim.keymap.set('n', '<LEADER>S', function() any_dir(builtin.live_grep) end)
+vim.keymap.set('n', '<LEADER>t', function() require('trouble').toggle() end)
 vim.keymap.set('n', '<C-h>', '<C-w>h')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')
@@ -248,13 +279,16 @@ vim.keymap.set('v', '<LEADER>M', '<CMD>TSCppDefineClassFunc<CR>')
 vim.keymap.set('n', '<LEADER>h', '<CMD>ClangdSwitchSourceHeader<CR>')
 
 -- lsp
-vim.keymap.set('n', '<LEADER>a', vim.lsp.buf.code_action, {})
-vim.keymap.set('n', '<LEADER>i', vim.diagnostic.open_float, {})
-vim.keymap.set('n', '<LEADER>r', vim.lsp.buf.rename, {})
-vim.keymap.set('n', '<LEADER>t', function() require('trouble').toggle() end)
-vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
-vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
-vim.keymap.set('n', 'gr', builtin.lsp_references, {})
+vim.keymap.set('n', '<LEADER>a', vim.lsp.buf.code_action)
+vim.keymap.set('n', '<LEADER>r', vim.lsp.buf.rename)
+vim.keymap.set('n', 'K', vim.lsp.buf.hover)
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
+vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
+vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
+vim.keymap.set('n', 'go', vim.lsp.buf.type_definition)
+vim.keymap.set('n', 'gr', vim.lsp.buf.references)
+vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
 
 vim.keymap.set('n', 'Q', '<NOP>')
 
