@@ -1,0 +1,14 @@
+font:
+    normal:
+        family: JetBrainsMonoNLNerdFont
+        style: Regular
+    size: 11
+
+colors:
+    primary:
+        background: '#1e2030'
+    cursor:
+        cursor: '#c8d3f5'
+
+mouse:
+    hide_when_typing: true
