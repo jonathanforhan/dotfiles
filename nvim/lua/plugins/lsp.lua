@@ -104,9 +104,21 @@ return {
         command = 'setlocal tabstop=2 softtabstop=2 shiftwidth=2'
       })
 
-      vim.api.nvim_create_autocmd({ 'BufWrite' }, {
+      vim.api.nvim_create_autocmd('BufWrite', {
         callback = function()
           vim.lsp.buf.format()
+        end
+      })
+
+      vim.api.nvim_create_autocmd({ 'BufWrite', 'Filetype' }, {
+        pattern = { '*.tex' },
+        callback = function()
+          local path = vim.fn.expand('%:p')
+          local parent = vim.fn.expand('%:p:h')
+          vim.cmd(
+            ':silent !pdflatex ' .. path ..
+            ' && sed -i -e s/FOO/BAR/g -e s/BAR/FOO/g ' .. parent .. '/index.html'
+          )
         end
       })
     end
