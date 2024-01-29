@@ -121,6 +121,18 @@ return {
           )
         end
       })
+
+      vim.api.nvim_create_autocmd({ 'BufWritePost', 'Filetype' }, {
+        pattern = { '*.tex' },
+        callback = function()
+          local path = vim.fn.expand('%:p')
+          local parent = vim.fn.expand('%:p:h')
+          vim.cmd(
+            ':silent !pdflatex ' .. path ..
+            ' && sed -i -e s/FOO/BAR/g -e s/BAR/FOO/g ' .. parent .. '/index.html'
+          )
+        end
+      })
     end
   },
 }
