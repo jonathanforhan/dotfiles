@@ -41,4 +41,5 @@ require('lazy').setup({
     notify = false
   }
 })
+
 require('init')

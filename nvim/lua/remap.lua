@@ -1,8 +1,6 @@
 local builtin = require('telescope.builtin')
 local function any_dir(fn)
-  fn({
-    search_dirs = { vim.fn.input('Directory: ', '', 'file') }
-  })
+  fn({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
 end
 
 -- buffer-navigation
