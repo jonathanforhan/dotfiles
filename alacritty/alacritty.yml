@@ -1,14 +1,62 @@
+shell:
+  program: /usr/bin/tmux
+  args:
+    - new-session
+    - -A
+    - -D
+    - -s
+    - λ
+
+window:
+  dimensions:
+    columns: 80
+    lines: 24
+  dynamic_padding: true
+  decorations: none
+  startup_mode: Maximized
+
 font:
-    normal:
-        family: JetBrainsMonoNLNerdFont
-        style: Regular
-    size: 11
+  normal:
+    family: JetBrainsMonoNLNerdFont
+    style: Regular
+  bold:
+    family: JetBrainsMonoNLNerdFont
+    style: Bold
+  italic:
+    family: JetBrainsMonoNLNerdFont
+    style: Italic
+  bold_italic:
+    family: JetBrainsMonoNLNerdFont
+    style: BoldItalic
+  size: 12
 
 colors:
-    primary:
-        background: '#1e2030'
-    cursor:
-        cursor: '#c8d3f5'
+  primary:
+    background: '#1a1b26'
+    foreground: '#a9b1d6'
+
+  cursor:
+    cursor:     '#c8d3f5'
+
+  normal:
+    black:      '#32344a'
+    red:        '#f7768e'
+    green:      '#9ece6a'
+    yellow:     '#e0af68'
+    blue:       '#7aa2f7'
+    magenta:    '#ad8ee6'
+    cyan:       '#449dab'
+    white:      '#787c99'
+
+  bright:
+    black:      '#444b6a'
+    red:        '#ff7a93'
+    green:      '#b9f27c'
+    yellow:     '#ff9e64'
+    blue:       '#7da6ff'
+    magenta:    '#bb9af7'
+    cyan:       '#0db9d7'
+    white:      '#acb0d0'
 
 mouse:
-    hide_when_typing: true
+  hide_when_typing: true
