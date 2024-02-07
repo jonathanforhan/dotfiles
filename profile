@@ -25,7 +25,7 @@ fi
 export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 
 # haskell
-[ -f "/home/jon/.ghcup/env" ] && source "/home/jon/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 
 # node version manager
 export NVM_DIR="$HOME/.nvm"
