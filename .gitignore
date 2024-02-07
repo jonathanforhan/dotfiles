@@ -1,0 +1,15 @@
+*
+!.gitignore
+!bash_aliases
+!bashrc
+!alacritty
+!alacritty/**
+!neofetch
+!neofetch/**
+!nvim
+!nvim/**
+nvim/lazy-lock.json
+!profile
+!pycodestyle
+!tmux
+!tmux/**
