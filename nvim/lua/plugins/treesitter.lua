@@ -1,8 +1,8 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
+    "nvim-treesitter/nvim-treesitter",
     opts = {
-      ensure_installed = { 'c', 'cpp', 'lua', 'vim', 'javascript', 'typescript', 'python', 'go', 'rust', 'haskell' },
+      ensure_installed = { "c", "cpp", "lua", "vim", "javascript", "typescript", "python", "go", "rust", "haskell" },
       sync_install = false,
       auto_install = true,
       highlight = {
@@ -14,7 +14,7 @@ return {
       }
     },
     config = function(_, opts)
-      require('nvim-treesitter.configs').setup(opts)
+      require("nvim-treesitter.configs").setup(opts)
     end
   }
 }

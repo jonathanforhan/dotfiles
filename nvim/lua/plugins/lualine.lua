@@ -1,13 +1,13 @@
 return {
   {
-    'nvim-lualine/lualine.nvim',
+    "nvim-lualine/lualine.nvim",
     lazy = false,
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
-      options = { component_separators = '', section_separators = '' },
+      options = { component_separators = "", section_separators = "" },
       sections = {
         lualine_a = {
-          { 'mode', fmt = function(_) return 'λ' end }
+          { "mode", fmt = function(_) return "λ" end }
         }
       }
     }

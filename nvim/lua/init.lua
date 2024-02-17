@@ -1,2 +1,2 @@
-require('remap')
-require('autocmd')
+require("remap")
+require("autocmd")

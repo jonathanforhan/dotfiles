@@ -1,7 +1,7 @@
 return {
   {
     "Badhi/nvim-treesitter-cpp-tools",
-    ft = 'cpp',
+    ft = "cpp",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     opts = {
       preview = {

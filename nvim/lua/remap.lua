@@ -1,46 +1,52 @@
-local builtin = require('telescope.builtin')
+vim.keymap.set("n", "Q", "<NOP>")
+vim.keymap.set("n", "<C-h>", "<C-w>h")
+vim.keymap.set("n", "<C-j>", "<C-w>j")
+vim.keymap.set("n", "<C-k>", "<C-w>k")
+vim.keymap.set("n", "<C-l>", "<C-w>l")
+vim.keymap.set("n", "<LEADER>p", "<CMD>b#<CR>")
+
+local builtin = require("telescope.builtin")
 local function any_dir(fn)
-  fn({ search_dirs = { vim.fn.input('Directory: ', '', 'file') } })
+  fn({ search_dirs = { vim.fn.input("Directory: ", "", "file") } })
 end
 
--- buffer-navigation
-vim.keymap.set('n', '<LEADER>p', '<CMD>b#<CR>')
-vim.keymap.set('n', '<LEADER>b', builtin.buffers)
-vim.keymap.set('n', '<LEADER>f', builtin.find_files)
-vim.keymap.set('n', '<LEADER>g', builtin.git_files)
-vim.keymap.set('n', '<LEADER>o', builtin.oldfiles)
-vim.keymap.set('n', '<LEADER>s', builtin.live_grep)
-vim.keymap.set('n', '<LEADER>F', function() any_dir(builtin.find_files) end)
-vim.keymap.set('n', '<LEADER>S', function() any_dir(builtin.live_grep) end)
-vim.keymap.set('n', '<LEADER>t', require('trouble').toggle)
-vim.keymap.set('n', '<C-h>', '<C-w>h')
-vim.keymap.set('n', '<C-j>', '<C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-w>k')
-vim.keymap.set('n', '<C-l>', '<C-w>l')
+require("which-key").register({
+  mode = "n",
+  d = { function() require("trouble").toggle() end, "Toggle Diagnostics" },
+  f = {
+    name = "Files",
+    b = { builtin.buffers, "Find Buffers" },
+    f = { builtin.find_files, "Find Files" },
+    g = { builtin.find_files, "Find Git Files" },
+    s = { builtin.live_grep, "Grep" },
+    F = { function() any_dir(builtin.find_files) end, "Find Files with Path" },
+    S = { function() any_dir(builtin.live_grep) end, "Grep with Path" }
+  },
+  g = {
+    name = "Git",
+    p = { "<CMD>GitGutterPreviewHunk<CR>", "Preview Hunk" },
+    u = { "<CMD>GitGutterUndoHunk<CR>", "Undo Hunk" },
+    d = { "<CMD>GitGutterDiffOrig", "Diff" }
+  },
+  l = {
+    name = "LSP",
+    a = { vim.lsp.buf.code_action, "Code Action" },
+    r = { vim.lsp.buf.rename, "Rename" }
+  },
+  p = "which_key_ignore",
+  x = {
+    name = "C++",
+    h = { "<CMD>ClangdSwitchSourceHeader<CR>", "Switch Source-Header" },
+    m = { "<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>", "Define Method" },
+    M = { "<CMD>TSCppDefineClassFunc<CR>", "Define Method Inline" }
+  }
+}, { prefix = "<LEADER>" })
 
--- git
-vim.keymap.set('n', '<LEADER>G', '<CMD>GitGutterPreviewHunk<CR>')
-
--- cpp
-vim.keymap.set({ 'n', 'v' }, '<LEADER>m', '<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>')
-vim.keymap.set({ 'n', 'v' }, '<LEADER>M', '<CMD>TSCppDefineClassFunc<CR>')
-vim.keymap.set('n', '<LEADER>h', '<CMD>ClangdSwitchSourceHeader<CR>')
-
--- lsp
-vim.keymap.set('n', '<LEADER>a', vim.lsp.buf.code_action)
-vim.keymap.set('n', '<LEADER>r', vim.lsp.buf.rename)
-vim.keymap.set('n', 'K', vim.lsp.buf.hover)
-vim.keymap.set('n', 'gd', vim.lsp.buf.definition)
-vim.keymap.set('n', 'gD', vim.lsp.buf.declaration)
-vim.keymap.set('n', 'gi', vim.lsp.buf.implementation)
-vim.keymap.set('n', 'go', vim.lsp.buf.type_definition)
-vim.keymap.set('n', 'gr', vim.lsp.buf.references)
-vim.keymap.set('n', 'gs', vim.lsp.buf.signature_help)
-vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
-
--- glyphs
-vim.keymap.set('i', '<C-k>', function()
-  require('nvim-glyph').pick_glyph()
-end)
-
-vim.keymap.set('n', 'Q', '<NOP>')
+require("which-key").register({
+  mode = "v",
+  x = {
+    name = "C++",
+    m = { "<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>", "Define Method" },
+    M = { "<CMD>TSCppDefineClassFunc<CR>", "Define Method Inline" }
+  }
+}, { prefix = "<LEADER>" })

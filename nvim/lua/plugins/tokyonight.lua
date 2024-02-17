@@ -1,9 +1,9 @@
 return {
   {
-    'jonathanforhan/tokyonight.nvim',
+    "jonathanforhan/tokyonight.nvim",
     lazy = false,
     opts = {
-      style = 'night',
+      style = "night",
       transparent = true,
       terminal_colors = true,
       styles = {
@@ -12,13 +12,13 @@ return {
         functions = {},
         variables = {},
         macros = { bold = true },
-        sidebars = 'transparent',
-        floats = 'transparent',
+        sidebars = "transparent",
+        floats = "transparent",
       },
-      sidebars = { 'qf', 'help' },
+      sidebars = { "qf", "help" },
     },
     init = function()
-      vim.cmd.colorscheme('tokyonight')
+      vim.cmd.colorscheme("tokyonight")
       vim.cmd [[
         hi DiagnosticVirtualTextInfo guibg=NONE | hi DiagnosticVirtualTextHint guibg=NONE
         hi DiagnosticVirtualTextWarn guibg=NONE | hi DiagnosticVirtualTextError guibg=NONE
