@@ -4,6 +4,7 @@ return {
     dependencies = {
       { "nvim-telescope/telescope.nvim" }
     },
+    event = "BufReadPost",
     init = function()
       vim.keymap.set("i", "<C-k>", function()
         require("nvim-glyph").pick_glyph()

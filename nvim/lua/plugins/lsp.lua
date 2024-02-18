@@ -7,6 +7,7 @@ return {
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/nvim-cmp" },
       { "L3MON4D3/LuaSnip" },
+      { "folke/neodev.nvim",                ft = "lua", opts = {} }
     },
     init = function()
       -- stand vim keymaps
@@ -31,20 +32,6 @@ return {
         handlers = {
           function(server)
             lsp_config[server].setup({ capabilities = lsp_capabilities })
-          end,
-          lua_ls = function()
-            lsp_config.lua_ls.setup({
-              settings = {
-                Lua = {
-                  runtime = { version = "LuaJIT" },
-                  diagnostics = { globals = { "vim" } },
-                  telemetry = { enable = false },
-                  workspace = {
-                    library = { vim.env.VIMRUNTIME }
-                  }
-                }
-              }
-            })
           end
         }
       })
