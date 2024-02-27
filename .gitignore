@@ -2,6 +2,7 @@
 !.gitignore
 !bash_aliases
 !bashrc
+!inputrc
 !alacritty
 !alacritty/**
 !neofetch

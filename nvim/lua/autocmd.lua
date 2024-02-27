@@ -24,5 +24,5 @@ vim.api.nvim_create_autocmd("Filetype", {
 vim.api.nvim_create_autocmd({ "BufWritePost", "Filetype" }, {
   group   = "AuCompile",
   pattern = "*.tex",
-  command = ":silent !pdflatex %:p"
+  command = ":silent !pdflatex %:p &>/dev/null"
 })

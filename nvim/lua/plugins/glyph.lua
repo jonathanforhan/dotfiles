@@ -18,7 +18,7 @@ return {
         "arabic",
         "box",
         "japanese",
-        "other"
+        -- "other"
       },
       exclude_code = { 182 },
     }

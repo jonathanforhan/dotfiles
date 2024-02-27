@@ -28,6 +28,7 @@ require("which-key").register({
     u = { "<CMD>GitGutterUndoHunk<CR>", "Undo Hunk" },
     d = { "<CMD>GitGutterDiffOrig", "Diff" }
   },
+  h = { "<CMD>HopWord<CR>", "Hop Word" },
   l = {
     name = "LSP",
     a = { vim.lsp.buf.code_action, "Code Action" },
