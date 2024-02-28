@@ -18,3 +18,4 @@ alias python='python3'
 alias chrome='flatpak run com.google.Chrome'
 
 alias open='xdg-open'
+alias gitui='lazygit'

@@ -37,3 +37,5 @@ export GPG_TTY=$(tty)
 
 # Added by Toolbox App
 export PATH="$PATH:/home/jon/.local/share/JetBrains/Toolbox/scripts"
+
+export EDITOR=nvim

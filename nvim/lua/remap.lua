@@ -35,6 +35,7 @@ require("which-key").register({
     r = { vim.lsp.buf.rename, "Rename" }
   },
   p = "which_key_ignore",
+  u = { "<CMD>Lazy update<CR><CMD>MasonUpdate<CR><CMD>TSUpdate<CR>", "Update" },
   x = {
     name = "C++",
     h = { "<CMD>ClangdSwitchSourceHeader<CR>", "Switch Source-Header" },
@@ -47,7 +48,8 @@ require("which-key").register({
   mode = "v",
   x = {
     name = "C++",
-    m = { "<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>", "Define Method" },
-    M = { "<CMD>TSCppDefineClassFunc<CR>", "Define Method Inline" }
-  }
+    m = { ":TSCppDefineClassFunc<CR>:ClangdSwitchSourceHeader<CR>", "Define Method" },
+    M = { ":TSCppDefineClassFunc<CR>", "Define Method Inline" }
+  },
+  s = { ":sort<CR>", "Sort Alphabetically" }
 }, { prefix = "<LEADER>" })
