@@ -4,9 +4,11 @@ vim.api.nvim_create_augroup("AuFormat", {})
 vim.api.nvim_create_augroup("AuFiletype", {})
 vim.api.nvim_create_augroup("AuCompile", {})
 
-vim.api.nvim_create_autocmd("BufWritePost", {
+vim.api.nvim_create_autocmd("BufWritePre", {
   group = "AuFormat",
-  command = ":silent lua vim.lsp.buf.format()"
+  callback = function(args)
+    require("conform").format({ bufnr = args.buf })
+  end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
@@ -21,7 +23,7 @@ vim.api.nvim_create_autocmd("Filetype", {
   command = "setlocal tabstop=2 softtabstop=2 shiftwidth=2"
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost", "Filetype" }, {
+vim.api.nvim_create_autocmd({ "BufWrite", "Filetype" }, {
   group   = "AuCompile",
   pattern = "*.tex",
   command = ":silent !pdflatex %:p &>/dev/null"

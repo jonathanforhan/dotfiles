@@ -47,8 +47,8 @@ return {
         snippet = {
           expand = function(args)
             require("luasnip").lsp_expand(args.body)
-          end,
-        },
+          end
+        }
       })
 
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
