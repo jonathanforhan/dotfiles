@@ -2,7 +2,22 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-      ensure_installed = { "c", "cpp", "lua", "vim", "javascript", "typescript", "python", "go", "rust", "haskell" },
+      ensure_installed = {
+        "c",
+        "comment",
+        "cpp",
+        "css",
+        "go",
+        "haskell",
+        "html",
+        "javascript",
+        "lua",
+        "python",
+        "rust",
+        "typescript",
+        "vim",
+        "vimdoc",
+      },
       sync_install = false,
       auto_install = true,
       highlight = {
