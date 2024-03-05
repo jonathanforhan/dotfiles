@@ -3,9 +3,7 @@
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
+    [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
 fi
 
 # set PATH so it includes user's private bin if it exists
@@ -19,7 +17,7 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # rust
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # go
 export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
@@ -34,8 +32,5 @@ export NVM_DIR="$HOME/.nvm"
 
 # gpg
 export GPG_TTY=$(tty)
-
-# Added by Toolbox App
-export PATH="$PATH:/home/jon/.local/share/JetBrains/Toolbox/scripts"
 
 export EDITOR=nvim
