@@ -14,18 +14,32 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd("BufRead", {
   desc = "Shader Language Filetype Recognition",
   group = "AuFiletype",
-  pattern = { "*.vert", "*.frag", "*.tesc", "*.geom", "*.glsl" },
+  pattern = {
+    "*.frag",
+    "*.geom",
+    "*.glsl",
+    "*.tesc",
+    "*.vert",
+  },
   command = "setlocal ft=glsl"
 })
 
 vim.api.nvim_create_autocmd("Filetype", {
   desc = "2 Space Tabs",
   group = "AuFiletype",
-  pattern = { "xml", "html", "css", "javascript", "typescript", "lua", "haskell" },
+  pattern = {
+    "css",
+    "haskell",
+    "html",
+    "javascript",
+    "lua",
+    "typescript",
+    "xml",
+  },
   command = "setlocal tabstop=2 softtabstop=2 shiftwidth=2"
 })
 
-vim.api.nvim_create_autocmd({ "BufWrite", "Filetype" }, {
+vim.api.nvim_create_autocmd({ "BufWritePost", "Filetype" }, {
   desc    = "Auto-Compile LaTeX",
   group   = "AuCompile",
   pattern = "*.tex",
@@ -43,6 +57,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 vim.api.nvim_create_autocmd("Filetype", {
   desc = "Highlight Hex with Color, #BADA55",
   group = "AuUi",
-  pattern = { "xml", "html", "css", "javascript", "typescript", "yaml", "lua" },
+  pattern = {
+    "css",
+    "html",
+    "javascript",
+    "lua",
+    "typescript",
+    "xml",
+    "yaml",
+  },
   command = "ColorizerAttachToBuffer"
 })
