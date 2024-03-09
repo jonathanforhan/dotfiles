@@ -5,6 +5,8 @@ vim.keymap.set("n", "<C-k>", "<C-w>k")
 vim.keymap.set("n", "<C-l>", "<C-w>l")
 vim.keymap.set("n", "<LEADER>p", "<CMD>b#<CR>")
 
+vim.keymap.set("t", "<ESC>", "<C-\\><C-n>:bd!<CR>")
+
 local builtin = require("telescope.builtin")
 local function any_dir(fn)
   fn({ search_dirs = { vim.fn.input("Directory: ", "", "file") } })
@@ -12,6 +14,13 @@ end
 
 require("which-key").register({
   mode = "n",
+  ["<space>"] = {
+    function()
+      vim.cmd("bel sp|term")
+      vim.api.nvim_feedkeys("A", "n", false)
+    end,
+    "Open Terminal in Split"
+  },
   d = { function() require("trouble").toggle() end, "Toggle Diagnostics" },
   f = {
     name = "Files",
@@ -41,7 +50,7 @@ require("which-key").register({
     h = { "<CMD>ClangdSwitchSourceHeader<CR>", "Switch Source-Header" },
     m = { "<CMD>TSCppDefineClassFunc<CR><CMD>ClangdSwitchSourceHeader<CR>", "Define Method" },
     M = { "<CMD>TSCppDefineClassFunc<CR>", "Define Method Inline" }
-  }
+  },
 }, { prefix = "<LEADER>" })
 
 require("which-key").register({

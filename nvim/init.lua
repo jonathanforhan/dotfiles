@@ -43,4 +43,5 @@ require("lazy").setup({
   }
 })
 
-require("init")
+require("autocmd")
+require("remap")
