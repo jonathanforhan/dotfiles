@@ -61,9 +61,9 @@ return {
         { border = border_style }
       )
 
-      vim.diagnostic.config {
+      vim.diagnostic.config({
         float = { border = border_style }
-      }
+      })
 
       require("lspconfig.ui.windows").default_options = { border = border_style }
     end

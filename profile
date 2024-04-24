@@ -17,8 +17,7 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 # rust
-[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
-
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 # go
 export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 
@@ -34,3 +33,5 @@ export NVM_DIR="$HOME/.nvm"
 export GPG_TTY=$(tty)
 
 export EDITOR=nvim
+
+# /usr/bin/tmux new-session -A -D -s main &>/dev/null
