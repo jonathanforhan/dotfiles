@@ -34,6 +34,7 @@ vim.api.nvim_create_autocmd("Filetype", {
     "javascript",
     "lua",
     "typescript",
+    "verilog",
     "xml",
   },
   command = "setlocal tabstop=2 softtabstop=2 shiftwidth=2"
