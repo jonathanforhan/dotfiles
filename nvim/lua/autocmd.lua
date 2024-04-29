@@ -11,19 +11,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end
 })
 
-vim.api.nvim_create_autocmd("BufRead", {
-  desc = "Shader Language Filetype Recognition",
-  group = "AuFiletype",
-  pattern = {
-    "*.frag",
-    "*.geom",
-    "*.glsl",
-    "*.tesc",
-    "*.vert",
-  },
-  command = "setlocal ft=glsl"
-})
-
 vim.api.nvim_create_autocmd("Filetype", {
   desc = "2 Space Tabs",
   group = "AuFiletype",
@@ -33,9 +20,10 @@ vim.api.nvim_create_autocmd("Filetype", {
     "html",
     "javascript",
     "lua",
-    "typescript",
-    "verilog",
     "systemverilog",
+    "typescript",
+    "typst",
+    "verilog",
     "xml",
   },
   command = "setlocal tabstop=2 softtabstop=2 shiftwidth=2"
@@ -65,6 +53,7 @@ vim.api.nvim_create_autocmd("Filetype", {
     "javascript",
     "lua",
     "typescript",
+    "typst",
     "xml",
     "yaml",
   },

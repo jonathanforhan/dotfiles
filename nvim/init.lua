@@ -46,3 +46,4 @@ require("lazy").setup({
 require("autocmd")
 require("remap")
 require("servers")
+require("filetype")
