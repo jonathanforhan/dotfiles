@@ -10,19 +10,18 @@ return {
       { "folke/neodev.nvim",                ft = "lua", opts = {} }
     },
     init = function()
-      -- standard vim keymaps
-      vim.keymap.set("n", "K", vim.lsp.buf.hover)
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition)
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration)
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
-      vim.keymap.set("n", "go", vim.lsp.buf.type_definition)
-      vim.keymap.set("n", "gr", vim.lsp.buf.references)
-      vim.keymap.set("n", "gs", vim.lsp.buf.signature_help)
-      vim.keymap.set("n", "gl", vim.diagnostic.open_float)
-
       local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lsp_config = require("lspconfig")
       local border_style = "rounded"
+
+      local server_config = {
+        verible = {
+          cmd = { "verible-verilog-ls", "--ruleset=none" }
+        },
+        svls = {
+          root_dir = lsp_config.util.root_pattern(".svls.toml", ".git")
+        }
+      }
 
       require("mason").setup({
         ui = { border = border_style },
@@ -31,7 +30,10 @@ return {
       require("mason-lspconfig").setup({
         handlers = {
           function(server)
-            lsp_config[server].setup({ capabilities = lsp_capabilities })
+            local config = server_config[server] or {}
+            config.capabilities = lsp_capabilities;
+
+            lsp_config[server].setup(config)
           end
         }
       })
