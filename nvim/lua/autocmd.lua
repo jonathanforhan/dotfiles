@@ -24,21 +24,21 @@ vim.api.nvim_create_autocmd("Filetype", {
     "typescript",
     "typst",
     "verilog",
-    "xml",
+    "xml"
   },
   command = "setlocal tabstop=2 softtabstop=2 shiftwidth=2"
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost", "Filetype" }, {
-  desc    = "Auto-Compile LaTeX",
-  group   = "AuCompile",
+  desc = "Auto-Compile LaTeX",
+  group = "AuCompile",
   pattern = "*.tex",
   command = "silent !pdflatex %:p &>/dev/null"
 })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc     = "Highlight on Yank",
-  group    = "AuUi",
+  desc = "Highlight on Yank",
+  group = "AuUi",
   callback = function()
     vim.highlight.on_yank()
   end
@@ -55,7 +55,7 @@ vim.api.nvim_create_autocmd("Filetype", {
     "typescript",
     "typst",
     "xml",
-    "yaml",
+    "yaml"
   },
   command = "ColorizerAttachToBuffer"
 })

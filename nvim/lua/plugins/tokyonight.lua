@@ -13,9 +13,9 @@ return {
         variables = {},
         macros = { bold = true },
         sidebars = "transparent",
-        floats = "transparent",
+        floats = "transparent"
       },
-      sidebars = { "qf", "help" },
+      sidebars = { "qf", "help" }
     },
     init = function()
       vim.cmd.colorscheme("tokyonight")

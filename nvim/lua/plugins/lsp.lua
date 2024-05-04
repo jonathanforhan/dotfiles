@@ -6,8 +6,11 @@ return {
       { "williamboman/mason-lspconfig.nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/nvim-cmp" },
-      { "L3MON4D3/LuaSnip" },
-      { "folke/neodev.nvim",                ft = "lua", opts = {} }
+      {
+        "L3MON4D3/LuaSnip",
+        build = "make install jsregexp"
+      },
+      { "folke/neodev.nvim", ft = "lua", opts = {} }
     },
     init = function()
       local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -24,7 +27,7 @@ return {
       }
 
       require("mason").setup({
-        ui = { border = border_style },
+        ui = { border = border_style }
       })
 
       require("mason-lspconfig").setup({
@@ -44,7 +47,7 @@ return {
         mapping = cmp.mapping.preset.insert({
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<TAB>"] = cmp.mapping.select_next_item(),
-          ["<S-TAB>"] = cmp.mapping.select_prev_item(),
+          ["<S-TAB>"] = cmp.mapping.select_prev_item()
         }),
         snippet = {
           expand = function(args)
@@ -69,5 +72,5 @@ return {
 
       require("lspconfig.ui.windows").default_options = { border = border_style }
     end
-  },
+  }
 }

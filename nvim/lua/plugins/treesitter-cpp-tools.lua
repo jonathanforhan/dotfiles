@@ -9,7 +9,7 @@ return {
         accept = "<CR>"
       },
       header_extension = "hpp",
-      source_extension = "cpp",
+      source_extension = "cpp"
     }
   }
 }

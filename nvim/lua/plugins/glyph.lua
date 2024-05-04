@@ -1,9 +1,7 @@
 return {
   {
     "jonathanforhan/nvim-glyph",
-    dependencies = {
-      { "nvim-telescope/telescope.nvim" }
-    },
+    dependencies = { { "nvim-telescope/telescope.nvim" } },
     event = "BufReadPost",
     init = function()
       vim.keymap.set("i", "<C-k>", function()
@@ -17,10 +15,10 @@ return {
         "hebrew",
         "arabic",
         "box",
-        "japanese",
+        "japanese"
         -- "other"
       },
-      exclude_code = { 182 },
+      exclude_code = { 182 }
     }
   }
 }

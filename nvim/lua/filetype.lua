@@ -5,6 +5,6 @@ vim.filetype.add({
     geom = "glsl",
     glsl = "glsl",
     tesc = "glsl",
-    vert = "glsl",
+    vert = "glsl"
   }
 })
