@@ -6,11 +6,8 @@ return {
       { "williamboman/mason-lspconfig.nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/nvim-cmp" },
-      {
-        "L3MON4D3/LuaSnip",
-        build = "make install jsregexp"
-      },
-      { "folke/neodev.nvim", ft = "lua", opts = {} }
+      { "L3MON4D3/LuaSnip" },
+      { "folke/neodev.nvim",                ft = "lua", opts = {} }
     },
     init = function()
       local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()

@@ -11,10 +11,35 @@ local prefixed = {
     "Open Terminal in Split"
   },
   d = {
-    function()
-      require("trouble").toggle()
-    end,
-    "Toggle Diagnostics"
+    name = "Debugger",
+    b = { function() require("dap").toggle_breakpoint() end, "Toggle Breakpoint" },
+    d = {
+      function()
+        require("dapui").setup()
+        require("dap").continue()
+        require("dapui").open()
+      end, "Start Debugging"
+    },
+    q = {
+      function()
+        require("dap").terminate()
+        require("dapui").close()
+      end,
+      "Quit Session"
+    },
+    r = { function() require("dap").run_to_cursor() end, "Run to Cursor" },
+    B = { function() require("dap").clear_breakpoints() end, "Clear Breakpoints" },
+    C = {
+      function()
+        vim.ui.input({ prompt = "Condition: " }, function(condition)
+          if condition then
+            require("dap").set_breakpoint(condition)
+          end
+        end)
+      end,
+      "Conditional Breakpoint"
+    },
+    R = { function() require("dap").restart_frame() end, "Restart Frame" }
   },
   f = {
     name = "Files",
