@@ -12,6 +12,9 @@ return {
       window = {
         position = "float"
       }
-    }
+    },
+    init = function()
+      vim.keymap.set("n", "<LEADER>.", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })
+    end
   }
 }

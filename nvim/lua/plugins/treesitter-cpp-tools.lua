@@ -10,6 +10,12 @@ return {
       },
       header_extension = "hpp",
       source_extension = "cpp"
-    }
+    },
+    init = function()
+      vim.keymap.set("n", "<LEADER>xh", ":ClangdSwitchSourceHeader<CR>", { desc = "Switch Source-Header" })
+      vim.keymap.set(
+        { "n", "v" }, "<LEADER>xm", ":TSCppDefineClassFunc<CR>:ClangdSwitchSourceHeader<CR>", { desc = "Define Method" })
+      vim.keymap.set({ "n", "v" }, "<LEADER>xM", ":TSCppDefineClassFunc<CR>", { desc = "Define Method Inline" })
+    end
   }
 }

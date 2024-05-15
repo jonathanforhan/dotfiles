@@ -3,12 +3,10 @@ return {
     "numToStr/Comment.nvim",
     opts = {
       toggler = {
-        line = "<LEADER>c",
-        block = "<LEADER>b"
+        line = "<LEADER>/"
       },
       opleader = {
-        line = "<LEADER>c",
-        block = "<LEADER>b"
+        line = "<LEADER>/"
       },
       mappings = {
         extra = false

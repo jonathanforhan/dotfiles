@@ -68,6 +68,17 @@ return {
       })
 
       require("lspconfig.ui.windows").default_options = { border = border_style }
+
+      vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "Code Action" })
+      vim.keymap.set("n", "<LEADER>lr", vim.lsp.buf.rename, { desc = "Rename" })
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Definition" })
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
+      vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Floating Diagnostic" })
+      vim.keymap.set("n", "go", vim.lsp.buf.type_definition, { desc = "Type Definition" })
+      vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References" })
+      vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature" })
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Declaration" })
+      vim.keymap.set("n", "gK", vim.lsp.buf.hover, { desc = "Info Hover" })
     end
   }
 }
