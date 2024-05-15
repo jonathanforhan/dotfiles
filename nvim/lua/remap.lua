@@ -80,6 +80,7 @@ local prefixed = {
     a = { vim.lsp.buf.code_action, "Code Action" },
     r = { vim.lsp.buf.rename, "Rename" }
   },
+  t = { function() require("trouble").toggle() end, "Trouble" },
   u = {
     ":Lazy update<CR>:MasonUpdate<CR>:TSUpdate<CR>",
     "Update"
