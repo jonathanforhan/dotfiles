@@ -78,7 +78,7 @@ return {
       vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References" })
       vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature" })
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Declaration" })
-      vim.keymap.set("n", "gK", vim.lsp.buf.hover, { desc = "Info Hover" })
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Info Hover" })
     end
   }
 }
