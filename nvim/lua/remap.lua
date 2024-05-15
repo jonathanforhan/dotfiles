@@ -3,13 +3,7 @@ local builtin = require("telescope.builtin")
 local prefixed = {
   mode = "n",
   prefix = "<LEADER>",
-  ["<SPACE>"] = {
-    function()
-      vim.cmd("bel sp | term")
-      vim.api.nvim_feedkeys("A", "n", false)
-    end,
-    "Open Terminal in Split"
-  },
+  ["<SPACE>"] = { ":Neotree toggle<CR>", "Toggle Neotree" },
   d = {
     name = "Debugger",
     b = { function() require("dap").toggle_breakpoint() end, "Toggle Breakpoint" },
@@ -138,8 +132,6 @@ local visual = {
     }
   }
 }
-
-vim.keymap.set("t", "<ESC>", "<C-\\><C-n>:bd!<CR>")
 
 require("which-key").register(prefixed)
 require("which-key").register(normal)
