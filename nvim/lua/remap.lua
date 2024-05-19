@@ -1,6 +1,7 @@
 local prefixed = {
   mode = "n",
   prefix = "<LEADER>",
+  ["/"] = { "gcc", "Comment Line" },
   d = { name = "Debugger" },
   f = { name = "Files" },
   g = { name = "Git" },
@@ -21,6 +22,7 @@ local normal = {
 
 local visual = {
   mode = "v",
+  prefix = "<LEADER>",
   s = { ":sort<CR>", "Sort Alphabetically" },
   x = { name = "C++" }
 }

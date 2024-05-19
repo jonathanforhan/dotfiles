@@ -1,21 +1,13 @@
 return {
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      icons = {
-        group = ""
-      }
-    },
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-
-      require("which-key").register({
-        mode = "n",
-        prefix = "<LEADER>",
-        ["/"] = { "Comment Line" }
-      })
-    end
-  }
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {
+    icons = {
+      group = ""
+    }
+  },
+  init = function()
+    vim.o.timeout = true
+    vim.o.timeoutlen = 300
+  end
 }
