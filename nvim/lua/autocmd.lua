@@ -2,6 +2,7 @@ vim.api.nvim_create_augroup("AuFormat", { clear = true })
 vim.api.nvim_create_augroup("AuFiletype", { clear = true })
 vim.api.nvim_create_augroup("AuCompile", { clear = true })
 vim.api.nvim_create_augroup("AuUi", { clear = true })
+vim.api.nvim_create_augroup("AuBuffer", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   desc = "Format on Save",
@@ -45,7 +46,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 vim.api.nvim_create_autocmd("Filetype", {
-  desc = "Highlight Hex with Color, #BADA55",
+  desc = "Highlight Hex with Color: #BADA55",
   group = "AuUi",
   pattern = {
     "css",
@@ -58,4 +59,12 @@ vim.api.nvim_create_autocmd("Filetype", {
     "yaml"
   },
   command = "ColorizerAttachToBuffer"
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  desc = "Add buffer to Harpoon",
+  group = "AuBuffer",
+  callback = function()
+    require("harpoon"):list():add()
+  end
 })
