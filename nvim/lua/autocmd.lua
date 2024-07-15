@@ -61,9 +61,10 @@ vim.api.nvim_create_autocmd("Filetype", {
   command = "ColorizerAttachToBuffer"
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
+vim.api.nvim_create_autocmd({ "BufEnter", "Filetype" }, {
   desc = "Add buffer to Harpoon",
   group = "AuBuffer",
+  pattern = "*.*",
   callback = function()
     require("harpoon"):list():add()
   end

@@ -8,7 +8,7 @@ local prefixed = {
   { "<LEADER>l", group = "LSP" },
   { "<LEADER>p", "<CMD>b#<CR>",                           desc = "Previous Buffer" },
   { "<LEADER>u", "<CMD>Lazy update<CR><CMD>TSUpdate<CR>", desc = "Update" },
-  { "<LEADER>x", group = "C++" },
+  { "<LEADER>x", group = "C++" }
 }
 
 local normal = {
@@ -17,13 +17,13 @@ local normal = {
   { "<C-j>", "<C-w>j",      desc = "Window Down" },
   { "<C-k>", "<C-w>k",      desc = "Window Up" },
   { "<C-l>", "<C-w>l",      desc = "Window Right" },
-  { "Q",     desc = "<NOP>" },
+  { "Q",     desc = "<NOP>" }
 }
 
 local visual = {
   mode = "v",
   { "<LEADER>s", "<CMD>sort<CR>", desc = "Sort Alphabetically" },
-  { "<LEADER>x", group = "C++" },
+  { "<LEADER>x", group = "C++" }
 }
 
 wk.add(prefixed)
