@@ -1,72 +1,69 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "williamboman/mason.nvim",
+    { "williamboman/mason.nvim", config = true },
     "williamboman/mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    "hrsh7th/nvim-cmp",
-    "L3MON4D3/LuaSnip",
-    { "folke/neodev.nvim", ft = "lua", opts = {} }
+    { "folke/neodev.nvim",       ft = "lua",   opts = {} },
+    {
+      "hrsh7th/nvim-cmp",
+      dependencies = {
+        "L3MON4D3/LuaSnip",
+        "saadparwaiz1/cmp_luasnip",
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-path"
+      }
+    }
   },
   init = function()
-    local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
-    local lsp_config = require("lspconfig")
-    local border_style = "rounded"
+    local border_style = { border = "rounded" }
 
     local server_config = {
       verible = {
         cmd = { "verible-verilog-ls", "--ruleset=none" }
       },
       svls = {
-        root_dir = lsp_config.util.root_pattern(".svls.toml", ".git")
+        root_dir = require("lspconfig").util.root_pattern(".svls.toml", ".git")
       }
     }
 
-    require("mason").setup({
-      ui = { border = border_style }
-    })
+    require("mason").setup({ ui = border_style })
 
     require("mason-lspconfig").setup({
       handlers = {
         function(server)
           local config = server_config[server] or {}
-          config.capabilities = lsp_capabilities;
+          config.capabilities = require("cmp_nvim_lsp").default_capabilities();
 
-          lsp_config[server].setup(config)
+          require("lspconfig")[server].setup(config)
         end
       }
     })
 
     local cmp = require("cmp")
+
     cmp.setup({
-      sources = { { name = "nvim_lsp" } },
+      snippet = {
+        expand = function(args)
+          require("luasnip").lsp_expand(args.body)
+        end
+      },
       mapping = cmp.mapping.preset.insert({
         ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<TAB>"] = cmp.mapping.select_next_item(),
         ["<S-TAB>"] = cmp.mapping.select_prev_item()
       }),
-      snippet = {
-        expand = function(args)
-          require("luasnip").lsp_expand(args.body)
-        end
+      sources = {
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "path" },
       }
     })
 
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-      vim.lsp.handlers.hover,
-      { border = border_style }
-    )
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, border_style)
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, border_style)
+    vim.diagnostic.config({ float = border_style })
 
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-      vim.lsp.handlers.signature_help,
-      { border = border_style }
-    )
-
-    vim.diagnostic.config({
-      float = { border = border_style }
-    })
-
-    require("lspconfig.ui.windows").default_options = { border = border_style }
+    require("lspconfig.ui.windows").default_options = border_style
 
     vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "Code Action" })
     vim.keymap.set("n", "<LEADER>lr", vim.lsp.buf.rename, { desc = "Rename" })

@@ -18,9 +18,9 @@ return {
   },
   init = function()
     vim.cmd.colorscheme("tokyonight")
-    vim.cmd [[
+    vim.cmd([[
         hi DiagnosticVirtualTextInfo guibg=NONE | hi DiagnosticVirtualTextHint guibg=NONE
         hi DiagnosticVirtualTextWarn guibg=NONE | hi DiagnosticVirtualTextError guibg=NONE
-      ]]
+      ]])
   end
 }

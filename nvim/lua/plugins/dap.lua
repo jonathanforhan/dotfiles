@@ -1,10 +1,11 @@
 return {
   "rcarriga/nvim-dap-ui",
+  ft = { "c", "cpp", "rust" },
   dependencies = {
     "mfussenegger/nvim-dap",
     "nvim-neotest/nvim-nio"
   },
-  init = function()
+  config = function(_, opts)
     local dap = require("dap")
     local dapui = require("dapui")
 
@@ -40,7 +41,7 @@ return {
     dap.configurations.rust = dap.configurations.cpp
 
     local function dap_start()
-      dapui.setup()
+      dapui.setup(opts)
       dap.continue()
       dapui.open()
     end

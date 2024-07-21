@@ -44,5 +44,3 @@ require("lazy").setup({
 })
 
 require("autocmd")
-require("remap")
-require("filetype")
