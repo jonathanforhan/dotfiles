@@ -23,6 +23,22 @@ return {
       },
       svls = {
         root_dir = require("lspconfig").util.root_pattern(".svls.toml", ".git")
+      },
+      clangd = {
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--completion-style=bundled",
+          "--cross-file-rename",
+          "--header-insertion=iwyu"
+        },
+        init_options = {
+          clangdFileStatus = true,
+          usePlaceholders = true,
+          completeUnimported = true,
+          semanticHighlighting = true
+        }
       }
     }
 
