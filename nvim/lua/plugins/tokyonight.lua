@@ -1,26 +1,25 @@
 return {
-  "jonathanforhan/tokyonight.nvim",
+  "folke/tokyonight.nvim",
   lazy = false,
+  init = function()
+    vim.cmd.colorscheme("tokyonight")
+  end,
   opts = {
     style = "night",
     transparent = true,
     terminal_colors = true,
     styles = {
-      comments = { italic = true },
-      keywords = { italic = true },
-      functions = {},
-      variables = {},
-      macros = { bold = true },
       sidebars = "transparent",
       floats = "transparent"
     },
-    sidebars = { "qf", "help" }
-  },
-  init = function()
-    vim.cmd.colorscheme("tokyonight")
-    vim.cmd([[
-        hi DiagnosticVirtualTextInfo guibg=NONE | hi DiagnosticVirtualTextHint guibg=NONE
-        hi DiagnosticVirtualTextWarn guibg=NONE | hi DiagnosticVirtualTextError guibg=NONE
-      ]])
-  end
+    sidebars = { "qf", "help" },
+    plugins = { markdown = true },
+    on_highlights = function(highlights, colors)
+      highlights.PreProc.bold = true
+      highlights.DiagnosticVirtualTextInfo.bg = colors.none
+      highlights.DiagnosticVirtualTextHint.bg = colors.none
+      highlights.DiagnosticVirtualTextWarn.bg = colors.none
+      highlights.DiagnosticVirtualTextError.bg = colors.none
+    end
+  }
 }

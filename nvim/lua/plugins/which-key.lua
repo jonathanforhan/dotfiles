@@ -18,7 +18,7 @@ return {
       { "<LEADER>l", group = "LSP" },
       { "<LEADER>p", "<CMD>b#<CR>",                           desc = "Previous Buffer" },
       { "<LEADER>u", "<CMD>Lazy update<CR><CMD>TSUpdate<CR>", desc = "Update" },
-      { "<LEADER>x", group = "C++" }
+      { "<LEADER>x", group = "Trouble" }
     }
 
     local normal = {

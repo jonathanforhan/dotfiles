@@ -1,5 +1,3 @@
-vim.keymap.set("n", "<LEADER>.", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })
-
 return {
   "nvim-neo-tree/neo-tree.nvim",
   branch = "v3.x",
@@ -9,6 +7,9 @@ return {
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim"
   },
+  init = function()
+    vim.keymap.set("n", "<LEADER>.", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })
+  end,
   opts = {
     window = {
       position = "float"

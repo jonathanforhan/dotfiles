@@ -1,6 +1,6 @@
-vim.api.nvim_create_autocmd("FileType", {
-  desc = "highlight hex with color: #BADA55",
-  pattern = {
+return {
+  "norcalli/nvim-colorizer.lua",
+  ft = {
     "css",
     "html",
     "javascript",
@@ -10,10 +10,8 @@ vim.api.nvim_create_autocmd("FileType", {
     "xml",
     "yaml"
   },
-  command = "ColorizerAttachToBuffer"
-})
-
-return {
-  "norcalli/nvim-colorizer.lua",
-  cmd = "ColorizerAttachToBuffer"
+  cmd = "ColorizerAttachToBuffer",
+  config = function()
+    vim.cmd("ColorizerAttachToBuffer")
+  end
 }

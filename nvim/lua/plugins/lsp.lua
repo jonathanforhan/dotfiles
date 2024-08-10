@@ -3,7 +3,6 @@ return {
   dependencies = {
     { "williamboman/mason.nvim", config = true },
     "williamboman/mason-lspconfig.nvim",
-    { "folke/neodev.nvim",       ft = "lua",   opts = {} },
     {
       "hrsh7th/nvim-cmp",
       dependencies = {
@@ -14,7 +13,7 @@ return {
       }
     }
   },
-  init = function()
+  config = function()
     local border_style = { border = "rounded" }
 
     local server_config = {
