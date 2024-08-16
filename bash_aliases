@@ -19,3 +19,6 @@ alias chrome='flatpak run com.google.Chrome'
 
 alias open='xdg-open'
 alias gitui='lazygit'
+
+alias ssh_server='ssh jon@85.31.224.15'
+alias fx='nautilus . &'

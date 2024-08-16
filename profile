@@ -18,6 +18,7 @@ fi
 
 # rust
 [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
 # go
 export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 
@@ -33,5 +34,11 @@ export NVM_DIR="$HOME/.nvm"
 export GPG_TTY=$(tty)
 
 export EDITOR=nvim
+
+# Xilinx
+[ -f /tools/Xilinx/Vivado/2023.2/settings64.sh ] && . /tools/Xilinx/Vivado/2023.2/settings64.sh 
+
+# red shift
+redshift -P -O 2800 &>/dev/null
 
 # /usr/bin/tmux new-session -A -D -s main &>/dev/null
