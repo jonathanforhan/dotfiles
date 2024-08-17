@@ -13,6 +13,8 @@ link bash_aliases
 link profile
 link inputrc
 
+ln -sf "$(pwd)/enc" "$HOME/.local/bin/enc"
+
 mkdir -p $HOME/.config/autostart
 
 echo \

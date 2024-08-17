@@ -7,20 +7,17 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
+[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
 
 # set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
-fi
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
 # rust
-[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
 # go
-export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
+[ -d "/usr/local/go/bin" ] && export PATH="$PATH:/usr/local/go/bin"
+[ -d "$HOME/go/bin" ] && export PATH="$PATH:$HOME/go/bin"
 
 # haskell
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
@@ -33,9 +30,8 @@ export NVM_DIR="$HOME/.nvm"
 # gpg
 export GPG_TTY=$(tty)
 
+# nvim
 export EDITOR=nvim
 
-# Xilinx
-[ -f /tools/Xilinx/Vivado/2023.2/settings64.sh ] && . /tools/Xilinx/Vivado/2023.2/settings64.sh 
-
+## uncomment if using wsl
 # /usr/bin/tmux new-session -A -D -s main &>/dev/null
