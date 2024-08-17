@@ -38,7 +38,4 @@ export EDITOR=nvim
 # Xilinx
 [ -f /tools/Xilinx/Vivado/2023.2/settings64.sh ] && . /tools/Xilinx/Vivado/2023.2/settings64.sh 
 
-# red shift
-redshift -P -O 2800 &>/dev/null
-
 # /usr/bin/tmux new-session -A -D -s main &>/dev/null
