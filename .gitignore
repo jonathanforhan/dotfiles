@@ -1,5 +1,6 @@
 *
 !.gitignore
+!README.md
 !bash_aliases
 !bashrc
 !inputrc
