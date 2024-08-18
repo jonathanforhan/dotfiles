@@ -33,5 +33,11 @@ export GPG_TTY=$(tty)
 # nvim
 export EDITOR=nvim
 
+# Xilinx
+[ -f /tools/Xilinx/Vivado/2023.2/settings64.sh ] && . /tools/Xilinx/Vivado/2023.2/settings64.sh
+
+# Petalinux
+[ -d "/tools/petalinux/tools/common/petalinux/bin" ] && export PATH="$PATH:/tools/petalinux/tools/common/petalinux/bin" && export PETALINUX='/tools/petalinux'
+
 ## uncomment if using wsl
 # /usr/bin/tmux new-session -A -D -s main &>/dev/null
