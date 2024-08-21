@@ -5,7 +5,7 @@
 #
 
 function link  {
-    ln -sf "$(dirname `pwd`)/$1" "$HOME/.$1"
+    ln -sf "$HOME/.config/$1" "$HOME/.$1"
 }
 
 link bashrc
@@ -13,7 +13,7 @@ link bash_aliases
 link profile
 link inputrc
 
-ln -sf "$(pwd)/enc" "$HOME/.local/bin/enc"
+ln -sf "$HOME/.config/scripts/enc" "$HOME/.local/bin/enc"
 
 mkdir -p $HOME/.config/autostart
 
