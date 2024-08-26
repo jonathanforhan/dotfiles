@@ -29,6 +29,7 @@ export NVM_DIR="$HOME/.nvm"
 
 # gpg
 export GPG_TTY=$(tty)
+export GCM_CREDENTIAL_STORE=gpg
 
 # nvim
 export EDITOR=nvim

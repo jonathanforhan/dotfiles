@@ -10,6 +10,9 @@ nix run home-manager/master -- init --switch
 $HOME/.config/nix/build.sh
 $HOME/.config/apt/install.sh
 
+wget "https://github.com/git-ecosystem/git-credential-manager/releases/download/v2.5.0/gcm-linux_amd64.2.5.0.deb" -O /tmp/gcmcore.deb
+sudo dpkg -i /tmp/gcmcore.deb
+git-credential-manager configure
 git config --global credential.helper manager
 
 function link  {
