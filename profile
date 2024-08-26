@@ -41,3 +41,4 @@ export EDITOR=nvim
 
 ## uncomment if using wsl
 # /usr/bin/tmux new-session -A -D -s main &>/dev/null
+if [ -e /home/jon/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jon/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

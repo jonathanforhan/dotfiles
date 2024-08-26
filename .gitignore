@@ -1,19 +1,27 @@
 *
 !.gitignore
 !README.md
+
+# include
+!alacritty
+!alacritty/**
+!apt
+!apt/**
 !bash_aliases
 !bashrc
 !inputrc
-!alacritty
-!alacritty/**
 !neofetch
 !neofetch/**
+!nix
+!nix/**
 !nvim
 !nvim/**
-nvim/lazy-lock.json
 !profile
 !pycodestyle
-!tmux
-!tmux/**
 !scripts
 !scripts/**
+!tmux
+!tmux/**
+
+# exclude
+nvim/lazy-lock.json

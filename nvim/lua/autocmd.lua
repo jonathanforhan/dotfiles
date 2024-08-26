@@ -6,6 +6,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "html",
     "javascript",
     "lua",
+    "nix",
     "systemverilog",
     "typescript",
     "typst",
