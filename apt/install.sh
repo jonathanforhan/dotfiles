@@ -7,6 +7,8 @@ deps=(
     # GUI
     alacritty
     gnome-tweaks
+    putty
+    timeshift
 
     # Xilinx
     libtinfo5
