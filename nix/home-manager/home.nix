@@ -12,7 +12,6 @@ in {
     # this is just for cli configuration
     cargo
     cmake
-    gh
     git
     gnupg
     go
