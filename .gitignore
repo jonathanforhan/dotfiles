@@ -3,23 +3,14 @@
 !README.md
 
 # include
-!alacritty
-!alacritty/**
-!apt
-!apt/**
-!bash_aliases
-!bashrc
-!inputrc
+!home-manager
+!home-manager/**
 !neofetch
 !neofetch/**
 !nix
 !nix/**
 !nvim
 !nvim/**
-!profile
-!pycodestyle
-!scripts
-!scripts/**
 !tmux
 !tmux/**
 
