@@ -36,7 +36,7 @@
       };
 
       font = {
-        size = 12;
+        size = 16;
       };
 
       font.bold = {

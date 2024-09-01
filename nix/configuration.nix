@@ -13,6 +13,7 @@ in {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   ## Boot
+  boot.kernelParams = [ "nvidia_drm.modeset=1" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -55,10 +56,10 @@ in {
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
-      xkb = {
-        layout = "us";
-        variant = "";
-      };
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
   };
 
   ## User
@@ -66,14 +67,19 @@ in {
     isNormalUser = true;
     description = "Jonathan Forhan";
     extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
-    #packages = with pkgs; [];
   };
 
   ## Services
-  services.displayManager.sddm.enable = true;
-  #services.displayManager.autoLogin.enable = true;
-  #services.displayManager.autoLogin.user = "jon";
-  services.desktopManager.plasma6.enable = true;
+  services.xserver.displayManager = {
+    gdm.enable = true;
+    gdm.wayland = true;
+    autoLogin.enable = true;
+    autoLogin.user = "jon";
+  };
+  services.xserver.desktopManager.gnome.enable = true;
+  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
 
   services.printing.enable = true;
 
@@ -95,13 +101,23 @@ in {
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryPackage = pkgs.pinentry-qt;
+    pinentryPackage = pkgs.pinentry-curses;
   };
 
-  ## Packages
-  programs.firefox.enable = true;
+  ## Gnome
+  environment.gnome.excludePackages = (with pkgs; [
+    gnome-connections
+    gnome-tour
+    xterm
+  ]) ++ (with pkgs.gnome; [
+    epiphany
+    geary
+  ]);
 
+  ## Packages
   nixpkgs.config.allowUnfree = true;
+
+  programs.firefox.enable = true;
 
   environment.systemPackages = (with pkgs; [
     alacritty
@@ -130,12 +146,12 @@ in {
     perl
     php
     php82Packages.composer
+    pinentry-curses
     (python312.withPackages (p: with p; [
       regex
       pip
       venvShellHook
     ]))
-    pinentry-qt
     ripgrep
     ruby
     rustc
