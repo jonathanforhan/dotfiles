@@ -5,7 +5,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/packages.nix
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc = {
