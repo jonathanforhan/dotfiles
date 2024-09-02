@@ -3,10 +3,8 @@
 !README.md
 
 # include
-!home-manager
-!home-manager/**
 !nix
 !nix/**
 
 # exclude
-home-manager/config/nvim/lazy-lock.json
+nix/home-manager/config/nvim/lazy-lock.json

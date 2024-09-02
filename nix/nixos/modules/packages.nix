@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 
-let
-  unstable = import (builtins.fetchTarball "channel:nixos-unstable")
-  { config = config.nixpkgs.config; };
-in {
+{
   nixpkgs.config.allowUnfree = true;
 
   programs.firefox.enable = true;
@@ -52,8 +49,6 @@ in {
     wget
     xclip
     zulu17
-  ]) ++ (with unstable; [
-    neovim
   ]);
 
   environment.gnome.excludePackages = (with pkgs; [

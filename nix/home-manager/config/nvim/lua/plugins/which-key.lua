@@ -32,7 +32,6 @@ return {
 
     local visual = {
       mode = "v",
-      { "<LEADER>s", "<CMD>sort<CR>", desc = "Sort Alphabetically" },
       { "<LEADER>x", group = "C++" }
     }
 
