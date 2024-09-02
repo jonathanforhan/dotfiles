@@ -1,9 +1,1 @@
-return {
-  "MeanderingProgrammer/render-markdown.nvim",
-  ft = { "markdown" },
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-    "nvim-tree/nvim-web-devicons"
-  },
-  opts = {}
-}
+/nix/store/47irn9h44rvcdpwahraa2irln21dgvsw-home-manager-files/.config/nvim/lua/plugins/markdown.lua

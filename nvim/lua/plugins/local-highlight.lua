@@ -1,4 +1,1 @@
-return {
-  "tzachar/local-highlight.nvim",
-  opts = { hlgroup = "Visual" }
-}
+/nix/store/47irn9h44rvcdpwahraa2irln21dgvsw-home-manager-files/.config/nvim/lua/plugins/local-highlight.lua

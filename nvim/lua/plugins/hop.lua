@@ -1,9 +1,1 @@
-return {
-  "smoka7/hop.nvim",
-  version = "*",
-  cmd = "HopWord",
-  init = function()
-    vim.keymap.set("n", "<LEADER>h", ":HopWord<CR>", { desc = "Hop Word" })
-  end,
-  config = true
-}
+/nix/store/47irn9h44rvcdpwahraa2irln21dgvsw-home-manager-files/.config/nvim/lua/plugins/hop.lua

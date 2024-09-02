@@ -1,17 +1,1 @@
-return {
-  "norcalli/nvim-colorizer.lua",
-  ft = {
-    "css",
-    "html",
-    "javascript",
-    "lua",
-    "typescript",
-    "typst",
-    "xml",
-    "yaml"
-  },
-  cmd = "ColorizerAttachToBuffer",
-  config = function()
-    vim.cmd("ColorizerAttachToBuffer")
-  end
-}
+/nix/store/47irn9h44rvcdpwahraa2irln21dgvsw-home-manager-files/.config/nvim/lua/plugins/colorizer.lua

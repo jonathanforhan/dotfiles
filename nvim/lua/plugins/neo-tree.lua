@@ -1,18 +1,1 @@
-return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
-  cmd = "Neotree",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
-    "MunifTanjim/nui.nvim"
-  },
-  init = function()
-    vim.keymap.set("n", "<LEADER>.", ":Neotree toggle<CR>", { desc = "Toggle Neotree" })
-  end,
-  opts = {
-    window = {
-      position = "float"
-    }
-  }
-}
+/nix/store/47irn9h44rvcdpwahraa2irln21dgvsw-home-manager-files/.config/nvim/lua/plugins/neo-tree.lua
