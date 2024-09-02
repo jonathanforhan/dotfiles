@@ -1,10 +1,1 @@
-*
-!.gitignore
-!README.md
-
-# include
-!nix
-!nix/**
-
-# exclude
-nix/home-manager/config/nvim/lazy-lock.json
+home-manager/config/nvim/lazy-lock.json
