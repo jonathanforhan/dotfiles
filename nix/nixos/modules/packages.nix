@@ -32,7 +32,7 @@
     perl
     php
     php82Packages.composer
-    pinentry-curses
+    pinentry-gnome3
     (python312.withPackages (p: with p; [
       regex
       pip
