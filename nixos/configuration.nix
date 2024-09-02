@@ -86,8 +86,6 @@
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
-  services.printing.enable = true;
-
   hardware.pulseaudio.enable = false;
 
   security.rtkit.enable = true;
@@ -118,6 +116,14 @@
   #networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   #networking.firewall.enable = false;
+
+  ## Printers
+  services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   system.stateVersion = "24.05";
 }
