@@ -29,6 +29,7 @@ in {
     ./modules/dconf.nix
     ./modules/git.nix
     ./modules/pylint.nix
+    ./modules/vimrc.nix
   ];
 
   home.file = (export-config [ "nvim" "tmux" "neofetch" ]);

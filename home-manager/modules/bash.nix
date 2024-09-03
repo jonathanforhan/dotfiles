@@ -6,8 +6,6 @@
     historyControl = [ "ignoredups" "ignorespace" ];
     historyIgnore = [ "ls" "l" "cd" ];
     bashrcExtra = ''
-      shopt -s histappend
-      shopt -s checkwinsize
       PS1='$ '
       export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
       set mode vi
@@ -21,7 +19,7 @@
       "la" = "ls -A";
       "l" = "ls -l";
       "vim" = "nvim";
-      "vi" = "vim";
+      "vi" = "$(which vim)";
       "gitui" = "lazygit";
     };
     sessionVariables = {
