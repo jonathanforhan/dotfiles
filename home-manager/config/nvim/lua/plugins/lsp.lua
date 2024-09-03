@@ -1,3 +1,27 @@
+-- NOTE clangd from mason does not work on NixOS
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "clangd",
+  pattern = { "c", "cc", "cpp", "cxx", "h", "hh", "hpp", "hxx", "cuda", "proto" },
+  callback = function()
+    require("lspconfig")["clangd"].setup({
+      cmd = {
+        "clangd",
+        "--background-index",
+        "--clang-tidy",
+        "--completion-style=bundled",
+        "--cross-file-rename",
+        "--header-insertion=iwyu"
+      },
+      init_options = {
+        clangdFileStatus = true,
+        usePlaceholders = true,
+        completeUnimported = true,
+        semanticHighlighting = true
+      }
+    })
+  end
+})
+
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
@@ -22,22 +46,6 @@ return {
       },
       svls = {
         root_dir = require("lspconfig").util.root_pattern(".svls.toml", ".git")
-      },
-      clangd = {
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--clang-tidy",
-          "--completion-style=bundled",
-          "--cross-file-rename",
-          "--header-insertion=iwyu"
-        },
-        init_options = {
-          clangdFileStatus = true,
-          usePlaceholders = true,
-          completeUnimported = true,
-          semanticHighlighting = true
-        }
       }
     }
 

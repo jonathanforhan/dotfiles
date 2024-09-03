@@ -7,14 +7,17 @@
 
   environment.systemPackages = (with pkgs; [
     alacritty
+    bear
     blender
     cargo
     clang
+    clang-tools
     cmake
     curl
     gcc
     gitFull
     git-credential-manager
+    gnumake
     gnupg
     go
     home-manager
@@ -23,7 +26,6 @@
     lshw
     lua
     luajitPackages.luarocks-nix
-    gnumake
     neofetch
     nerdfonts
     ninja
