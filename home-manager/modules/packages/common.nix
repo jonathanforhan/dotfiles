@@ -17,6 +17,7 @@ in {
       cmake
       curl
       go
+      gnumake
       julia_19
       lazygit
       lua

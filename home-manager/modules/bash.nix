@@ -10,6 +10,10 @@
       export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
       set mode vi
     '';
+    profileExtra = ''
+      [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ] && . $HOME/.nix-profile/etc/profile.d/nix.sh
+      [ -f /etc/NIXOS ] || tmux new-session -A -D -s main &>/dev/null
+    '';
     shellAliases = {
       "grep" = "grep --color=auto";
       "fgrep" = "fgrep --color=auto";

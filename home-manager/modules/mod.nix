@@ -5,7 +5,7 @@
     ./packages/mod.nix
     ./alacritty.nix
     ./bash.nix
-    ./dconf.nix
+    #./dconf.nix (TODO make this a option)
     ./git.nix
     ./pylint.nix
     ./vimrc.nix
