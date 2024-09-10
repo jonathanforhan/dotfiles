@@ -12,12 +12,10 @@ in {
     home.packages = (with pkgs; [
       bear
       cargo
-      clang
       clang-tools
       cmake
       curl
       go
-      gnumake
       julia_19
       lazygit
       lua
@@ -31,8 +29,10 @@ in {
       php
       php82Packages.composer
       (python312.withPackages (p: with p; [
-        regex
+        matplotlib
+        numpy
         pip
+        regex
         venvShellHook
       ]))
       ripgrep
