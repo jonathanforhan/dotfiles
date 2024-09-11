@@ -1,32 +1,6 @@
--- NOTE clangd from mason does not work on NixOS
-vim.api.nvim_create_autocmd("FileType", {
-  desc = "clangd",
-  pattern = { "c", "cc", "cpp", "cxx", "h", "hh", "hpp", "hxx", "cuda", "proto" },
-  callback = function()
-    require("lspconfig")["clangd"].setup({
-      cmd = {
-        "clangd",
-        "--background-index",
-        "--clang-tidy",
-        "--completion-style=bundled",
-        "--cross-file-rename",
-        "--header-insertion=iwyu"
-      },
-      init_options = {
-        clangdFileStatus = true,
-        usePlaceholders = true,
-        completeUnimported = true,
-        semanticHighlighting = true
-      }
-    })
-  end
-})
-
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    { "williamboman/mason.nvim", config = true },
-    "williamboman/mason-lspconfig.nvim",
     {
       "hrsh7th/nvim-cmp",
       dependencies = {
@@ -40,27 +14,88 @@ return {
   config = function()
     local border_style = { border = "rounded" }
 
-    local server_config = {
-      verible = {
-        cmd = { "verible-verilog-ls", "--ruleset=none" }
+    local servers = {
+      clangd = {
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--completion-style=bundled",
+          "--cross-file-rename",
+          "--header-insertion=iwyu"
+        },
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+        root_dir = require("lspconfig").util.root_pattern(
+          ".clangd",
+          ".clang-tidy",
+          ".clang-format",
+          "compile_commands.json",
+          "compile_flags.txt",
+          "configure.ac",
+          ".git"
+        ),
+        init_options = {
+          clangdFileStatus = true,
+          usePlaceholders = true,
+          completeUnimported = true,
+          semanticHighlighting = true
+        },
+        single_file_support = true
       },
-      svls = {
-        root_dir = require("lspconfig").util.root_pattern(".svls.toml", ".git")
+      cmake = {
+        cmd = { "cmake-language-server" },
+        filetypes = { "cmake" },
+        init_options = { buildDirectory = "build" },
+        root_dir = require("lspconfig").util.root_pattern(
+          "CMakePresets.json",
+          "CTestConfig.cmake",
+          ".git",
+          "build",
+          "cmake"
+        ),
+        single_file_support = true
+      },
+      lua_ls = {
+        cmd = { "lua-language-server" },
+        filetypes = { "lua" },
+        log_level = 2,
+        root_dir = require("lspconfig").util.root_pattern(
+          ".luarc.json",
+          ".luarc.jsonc",
+          ".luacheckrc",
+          ".stylua.toml",
+          "stylua.toml",
+          "selene.toml",
+          "selene.yml",
+          ".git"
+        ),
+        single_file_support = true
+      },
+      pyright = {
+        cmd = { "pyright-langserver", "--stdio" },
+        filetypes = { "python" },
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true
+            }
+          }
+        },
+        single_file_support = true
       }
     }
 
-    require("mason").setup({ ui = border_style })
-
-    require("mason-lspconfig").setup({
-      handlers = {
-        function(server)
-          local config = server_config[server] or {}
-          config.capabilities = require("cmp_nvim_lsp").default_capabilities();
-
+    for server, config in pairs(servers) do
+      vim.api.nvim_create_autocmd("FileType", {
+        desc = server,
+        pattern = config.pattern,
+        callback = function()
           require("lspconfig")[server].setup(config)
         end
-      }
-    })
+      })
+    end
 
     local cmp = require("cmp")
 
@@ -82,11 +117,11 @@ return {
       }
     })
 
+    require("lspconfig.ui.windows").default_options = border_style
+
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, border_style)
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, border_style)
     vim.diagnostic.config({ float = border_style })
-
-    require("lspconfig.ui.windows").default_options = border_style
 
     vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "Code Action" })
     vim.keymap.set("n", "<LEADER>lr", vim.lsp.buf.rename, { desc = "Rename" })
