@@ -55,6 +55,51 @@ return {
         ),
         single_file_support = true
       },
+      ltex = {
+        cmd = { "ltex-ls" },
+        filetypes = {
+          "bib",
+          "gitcommit",
+          "markdown",
+          "org",
+          "plaintex",
+          "rst",
+          "rnoweb",
+          "tex",
+          "pandoc",
+          "quarto",
+          "rmd",
+          "context",
+          "html",
+          "xhtml",
+          "mail",
+          "text"
+        },
+        settings = {
+          {
+            ltex = {
+              enabled = {
+                "bibtex",
+                "gitcommit",
+                "markdown",
+                "org",
+                "tex",
+                "restructuredtext",
+                "rsweave",
+                "latex",
+                "quarto",
+                "rmd",
+                "context",
+                "html",
+                "xhtml",
+                "mail",
+                "plaintext"
+              }
+            }
+          }
+        },
+        single_file_support = true
+      },
       lua_ls = {
         cmd = { "lua-language-server" },
         filetypes = { "lua" },
@@ -88,13 +133,7 @@ return {
     }
 
     for server, config in pairs(servers) do
-      vim.api.nvim_create_autocmd("FileType", {
-        desc = server,
-        pattern = config.pattern,
-        callback = function()
-          require("lspconfig")[server].setup(config)
-        end
-      })
+      require("lspconfig")[server].setup(config)
     end
 
     local cmp = require("cmp")
