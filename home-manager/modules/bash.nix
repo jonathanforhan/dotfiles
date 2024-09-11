@@ -13,7 +13,8 @@
     profileExtra = ''
       [ -f $HOME/.nix-profile/etc/profile.d/nix.sh ] && . $HOME/.nix-profile/etc/profile.d/nix.sh
       [ -d $HOME/.cargo/bin ] && export PATH="$HOME/.cargo/bin:$PATH"
-      [ -f /etc/NIXOS ] || tmux new-session -A -D -s main &>/dev/null
+      # [ -f /etc/NIXOS ] || tmux new-session -A -D -s main &>/dev/null
+      tmux new-session -A -D -s main &>/dev/null
     '';
     shellAliases = {
       "grep" = "grep --color=auto";

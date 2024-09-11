@@ -12,6 +12,9 @@ in {
     home.packages = (with pkgs; [
       cargo
       curl
+      gcc
+      git-credential-manager
+      gnumake
       lazygit
       neofetch
       nerdfonts
