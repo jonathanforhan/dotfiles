@@ -18,7 +18,13 @@ in {
       lazygit
       neofetch
       nerdfonts
+      nodejs_22
+      pandoc
       pass
+      (python312.withPackages (p: with p; [
+        numpy
+        matplotlib
+      ]))
       ripgrep
       texliveFull
       tmux
@@ -26,6 +32,13 @@ in {
       unzip
       wget
       xclip
+
+      # lsp
+      clang-tools
+      cmake-language-server
+      ltex-ls
+      lua-language-server
+      pyright
     ]) ++ (with unstable; [
       neovim
     ]);
