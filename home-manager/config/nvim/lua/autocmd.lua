@@ -28,3 +28,9 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.tex",
   command = "silent !pdflatex %:p &>/dev/null"
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  desc = "ejs",
+  pattern = { "*.ejs" },
+  command = "set ft=html"
+})

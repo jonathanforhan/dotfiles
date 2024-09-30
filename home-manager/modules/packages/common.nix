@@ -22,8 +22,9 @@ in {
       pandoc
       pass
       (python312.withPackages (p: with p; [
-        numpy
         matplotlib
+        numpy
+        sympy
       ]))
       ripgrep
       texliveFull
@@ -39,6 +40,13 @@ in {
       ltex-ls
       lua-language-server
       pyright
+      rust-analyzer
+      nodePackages.eslint
+      nodePackages.typescript-language-server
+      vscode-langservers-extracted
+
+      # formatter
+      prettierd
     ]) ++ (with unstable; [
       neovim
     ]);

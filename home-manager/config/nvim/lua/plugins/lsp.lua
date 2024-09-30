@@ -15,7 +15,7 @@ return {
     local border_style = { border = "rounded" }
 
     local servers = {
-      clangd = {
+      clangd        = {
         cmd = {
           "clangd",
           "--background-index",
@@ -24,112 +24,20 @@ return {
           "--cross-file-rename",
           "--header-insertion=iwyu"
         },
-        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-        root_dir = require("lspconfig").util.root_pattern(
-          ".clangd",
-          ".clang-tidy",
-          ".clang-format",
-          "compile_commands.json",
-          "compile_flags.txt",
-          "configure.ac",
-          ".git"
-        ),
         init_options = {
           clangdFileStatus = true,
           usePlaceholders = true,
           completeUnimported = true,
           semanticHighlighting = true
-        },
-        single_file_support = true
+        }
       },
-      cmake = {
-        cmd = { "cmake-language-server" },
-        filetypes = { "cmake" },
-        init_options = { buildDirectory = "build" },
-        root_dir = require("lspconfig").util.root_pattern(
-          "CMakePresets.json",
-          "CTestConfig.cmake",
-          ".git",
-          "build",
-          "cmake"
-        ),
-        single_file_support = true
-      },
-      ltex = {
-        cmd = { "ltex-ls" },
-        filetypes = {
-          "bib",
-          "gitcommit",
-          "markdown",
-          "org",
-          "plaintex",
-          "rst",
-          "rnoweb",
-          "tex",
-          "pandoc",
-          "quarto",
-          "rmd",
-          "context",
-          "html",
-          "xhtml",
-          "mail",
-          "text"
-        },
-        settings = {
-          {
-            ltex = {
-              enabled = {
-                "bibtex",
-                "gitcommit",
-                "markdown",
-                "org",
-                "tex",
-                "restructuredtext",
-                "rsweave",
-                "latex",
-                "quarto",
-                "rmd",
-                "context",
-                "html",
-                "xhtml",
-                "mail",
-                "plaintext"
-              }
-            }
-          }
-        },
-        single_file_support = true
-      },
-      lua_ls = {
-        cmd = { "lua-language-server" },
-        filetypes = { "lua" },
-        log_level = 2,
-        root_dir = require("lspconfig").util.root_pattern(
-          ".luarc.json",
-          ".luarc.jsonc",
-          ".luacheckrc",
-          ".stylua.toml",
-          "stylua.toml",
-          "selene.toml",
-          "selene.yml",
-          ".git"
-        ),
-        single_file_support = true
-      },
-      pyright = {
-        cmd = { "pyright-langserver", "--stdio" },
-        filetypes = { "python" },
-        settings = {
-          python = {
-            analysis = {
-              autoSearchPaths = true,
-              diagnosticMode = "openFilesOnly",
-              useLibraryCodeForTypes = true
-            }
-          }
-        },
-        single_file_support = true
-      }
+      cmake         = {},
+      html          = {},
+      ltex          = {},
+      lua_ls        = {},
+      pyright       = {},
+      rust_analyzer = {},
+      ts_ls         = {}
     }
 
     for server, config in pairs(servers) do
