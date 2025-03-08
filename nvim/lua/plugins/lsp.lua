@@ -1,6 +1,14 @@
 return {
-  "neovim/nvim-lspconfig",
+  "williamboman/mason-lspconfig.nvim",
   dependencies = {
+    {
+      "williamboman/mason.nvim",
+      build = ":MasonUpdate",
+      config = function()
+        require("mason").setup()
+      end
+    },
+    "neovim/nvim-lspconfig",
     {
       "hrsh7th/nvim-cmp",
       dependencies = {
@@ -12,10 +20,8 @@ return {
     }
   },
   config = function()
-    local border_style = { border = "rounded" }
-
-    local servers = {
-      clangd        = {
+    local server_configs = {
+      clangd = {
         cmd = {
           "clangd",
           "--background-index",
@@ -30,19 +36,37 @@ return {
           completeUnimported = true,
           semanticHighlighting = true
         }
-      },
-      cmake         = {},
-      html          = {},
-      ltex          = {},
-      lua_ls        = {},
-      pyright       = {},
-      rust_analyzer = {},
-      ts_ls         = {}
+      }
     }
 
-    for server, config in pairs(servers) do
-      require("lspconfig")[server].setup(config)
-    end
+    require("mason-lspconfig").setup({
+      ensure_installed = {
+        "clangd",
+        "cmake",
+        "html",
+        "ltex",
+        "lua_ls",
+        "pyright",
+        "rust_analyzer",
+        "ts_ls"
+      },
+      automatic_installation = true,
+    })
+
+    require("mason-lspconfig").setup_handlers({
+      function(server)
+        require("lspconfig")[server].setup(server_configs[server] or {})
+      end,
+      ["lua_ls"] = function()
+        require("lspconfig").lua_ls.setup({
+          settings = {
+            Lua = {
+              diagnostics = { globals = { "vim" } }
+            }
+          }
+        })
+      end
+    })
 
     local cmp = require("cmp")
 
@@ -60,9 +84,11 @@ return {
       sources = {
         { name = "nvim_lsp" },
         { name = "luasnip" },
-        { name = "path" },
+        { name = "path" }
       }
     })
+
+    local border_style = { border = "rounded" }
 
     require("lspconfig.ui.windows").default_options = border_style
 

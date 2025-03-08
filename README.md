@@ -1,22 +1,9 @@
-# Nix Configuration
+# dotfiles
 
-```sh
-mkdir -p ~/.config/nix
-git clone https://github.com/jonathanforhan/dotfiles.git ~/.config/nix
-cd ~/.config/nix
-```
+intended to work with Ubuntu-24.04 wls2
 
-## NixOS
+## build
 
-```sh
-sudo nixos-rebuild --flake .
-home-manager switch --flake . --impure
-```
-
-## Other Distro
-
-```sh
-sh <(curl -L https://nixos.org/nix/install) --no-daemon
-. $HOME/.nix-profile/etc/profile.d/nix.sh
-nix run nixpkgs#home-manager -- switch --flake . --impure
-```
+* ```git clone https://github.com/jonathanforhan/dotfiles.git ~/.config```
+* ```chmod u+x ~/.config/setup.sh && ~/.config/setup.sh```
+* build neovim 10.4 from source

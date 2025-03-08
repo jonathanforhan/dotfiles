@@ -14,6 +14,9 @@ return {
     },
     sidebars = { "qf", "help" },
     plugins = { markdown = true },
+    on_colors = function(colors)
+      colors.bg_visual = "#505050"
+    end,
     on_highlights = function(highlights, colors)
       highlights.PreProc.bold = true
       highlights.DiagnosticVirtualTextInfo.bg = colors.none

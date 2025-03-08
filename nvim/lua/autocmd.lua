@@ -23,6 +23,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end
 })
 
+--[[ *not currently used*
 vim.api.nvim_create_autocmd("BufWritePost", {
   desc = "auto-compile latex",
   pattern = "*.tex",
@@ -34,3 +35,4 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*.ejs" },
   command = "set ft=html"
 })
+]]

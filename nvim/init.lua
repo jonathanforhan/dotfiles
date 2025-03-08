@@ -1,3 +1,17 @@
+local major = 0
+local minor = 10
+local patch = 4
+
+local version = vim.version()
+
+if not (version.major == major and version.minor == minor and version.patch == patch) then
+  vim.notify(
+    string.format("neovim version %d.%d.%d is required, current version: %d.%d.%d",
+      major, minor, patch, version.major, version.minor, version.patch),
+    vim.log.levels.ERROR
+  )
+end
+
 vim.g.mapleader = " "
 vim.g.termguicolors = true
 vim.opt.number = true
@@ -17,6 +31,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.clipboard = "unnamedplus"
+-- vim.opts.rocks.hererocks = false
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
