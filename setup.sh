@@ -5,6 +5,7 @@ ln -sf "$HOME/.config/bashrc.sh"     "$HOME/.bashrc"
 ln -sf "$HOME/.config/profile.sh"    "$HOME/.profile"
 ln -sf "$HOME/.config/inputrc"       "$HOME/.inputrc"
 ln -sf "$HOME/.config/.clang-format" "$HOME/.clang-format"
+ln -sf "$HOME/.config/.clang-tidy"   "$HOME/.clang-tidy"
 
 # update repos
 sudo apt update
@@ -12,6 +13,7 @@ sudo apt update
 # install dependencies
 sudo apt install -y\
 	build-essential\
+	clang-tidy\
 	cmake\
 	curl\
 	gettext\

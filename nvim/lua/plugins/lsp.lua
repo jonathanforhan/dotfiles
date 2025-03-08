@@ -24,9 +24,10 @@ return {
       clangd = {
         cmd = {
           "clangd",
-          "--background-index",
           "--clang-tidy",
-          "--completion-style=bundled",
+          "--background-index",
+          "--suggest-missing-includes",
+          "--completion-style=detailed",
           "--cross-file-rename",
           "--header-insertion=iwyu"
         },
