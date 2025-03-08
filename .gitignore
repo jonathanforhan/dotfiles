@@ -1,1 +1,18 @@
+*
+!*/
 
+!.clang-format
+!.git
+!.gitconfig
+!.gitignore
+!README.md
+!bashrc.sh
+!inputrc
+!neofetch/
+!neofetch/**
+!nvim/
+!nvim/**
+!profile.sh
+!setup.sh
+!tmux/
+!tmux/**
