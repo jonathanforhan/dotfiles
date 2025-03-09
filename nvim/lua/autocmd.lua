@@ -30,9 +30,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     local colors = require("tokyonight.colors").setup()
     vim.api.nvim_set_hl(0, "@lsp.typemod.class.constructorOrDestructor", { link = "Function" }) -- Constructors and Destructors are methods
     vim.api.nvim_set_hl(0, "@type.builtin", { fg = colors.purple })                             -- builtin types
-    vim.api.nvim_set_hl(0, "@lsp.typemod.type.defaultLibrary", { fg = colors.purple })          -- stdint.h types
-    vim.api.nvim_set_hl(0, "@lsp.typemod.type.deduced", { fg = colors.purple })                 -- auto
-    vim.api.nvim_set_hl(0, "@lsp.typemod.class.deduced", { fg = colors.purple })                -- auto
+    vim.api.nvim_set_hl(0, "@lsp.typemod.type.defaultLibrary", { link = "Type" })               -- stdint.h types
+    vim.api.nvim_set_hl(0, "@lsp.typemod.class.defaultLibrary", { link = "Type" })              -- stl classes
+    vim.api.nvim_set_hl(0, "@auto_keyword", { fg = colors.purple })                             -- auto
     vim.api.nvim_set_hl(0, "@lsp.type.namespace", { fg = colors.purple })                       -- namespaces
     vim.api.nvim_set_hl(0, "@punctuation.bracket", { fg = colors.cyan })                        -- brackets
   end,
