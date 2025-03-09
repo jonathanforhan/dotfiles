@@ -24,6 +24,7 @@ alias gitui="lazygit"
 alias xp="explorer.exe"
 alias clip="clip.exe"
 alias paste="powershell.exe Get-Clipboard"
+alias python="python3"
 
 # Environment variables
 export GPG_TTY=$(tty)
