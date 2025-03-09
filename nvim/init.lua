@@ -31,7 +31,8 @@ vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 vim.opt.clipboard = "unnamedplus"
--- vim.opts.rocks.hererocks = false
+
+require("autocmd")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -58,4 +59,4 @@ require("lazy").setup({
   }
 })
 
-require("autocmd")
+vim.cmd.colorscheme("tokyonight")
