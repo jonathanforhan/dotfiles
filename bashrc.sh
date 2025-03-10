@@ -25,6 +25,7 @@ alias xp="explorer.exe"
 alias clip="clip.exe"
 alias paste="powershell.exe Get-Clipboard"
 alias python="python3"
+alias pip="pip3"
 
 # Environment variables
 export GPG_TTY=$(tty)

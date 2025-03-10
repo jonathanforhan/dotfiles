@@ -4,7 +4,6 @@ Checks: >
   cert-*,
   clang-analyzer-*,
   concurrency-*,
-  misc-*,
   performance-*,
   portability-*,
   security-*,
@@ -22,6 +21,7 @@ Checks: >
   cppcoreguidelines-slicing,
   cppcoreguidelines-special-member-functions,
   cppcoreguidelines-virtual-class-destructor
+# misc-*
 
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*'

@@ -13,14 +13,17 @@ sudo apt update
 # install dependencies
 sudo apt install -y\
 	build-essential\
+    cargo\
 	clang-tidy\
 	cmake\
 	curl\
+	gdb\
 	gettext\
 	git\
 	luarocks\
 	neofetch\
 	ninja-build\
+	python3-pip\
 	pass\
 	ripgrep\
 	tmux\
