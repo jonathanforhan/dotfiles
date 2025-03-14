@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       ["@auto_keyword"] = { fg = colors.purple },                             -- auto
       ["@lsp.type.namespace"] = { fg = colors.purple },                       -- namespaces
       ["@punctuation.bracket"] = { fg = colors.cyan },                        -- brackets
-      ["@variable.parameter"] = { fg = colors.cyan },                         -- parameters
+      ["@variable.parameter"] = { fg = colors.fg },                           -- parameters
       ["@lsp.type.macro.cpp"] = { link = "Macro" },                           -- macros
     }
 
