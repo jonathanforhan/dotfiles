@@ -1,7 +1,15 @@
 return {
   "Badhi/nvim-treesitter-cpp-tools",
   ft = "cpp",
-  dependencies = { "nvim-treesitter/nvim-treesitter" },
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    {
+      "p00f/clangd_extensions.nvim",
+      config = function()
+        require("clangd_extensions").setup()
+      end
+    }
+  },
   opts = {
     preview = {
       quit = "q",
