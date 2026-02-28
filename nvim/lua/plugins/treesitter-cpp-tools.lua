@@ -1,14 +1,14 @@
 return {
   "Badhi/nvim-treesitter-cpp-tools",
-  ft = "cpp",
+  ft = { "c", "cpp" },
   dependencies = { "nvim-treesitter/nvim-treesitter" },
   opts = {
     preview = {
       quit = "q",
       accept = "<CR>"
     },
-    header_extension = "hpp",
-    source_extension = "cpp"
+    header_extension = { "h", "hpp" },
+    source_extension = { "c", "cpp" }
   },
   config = function(_, opts)
     require("nt-cpp-tools").setup(opts)

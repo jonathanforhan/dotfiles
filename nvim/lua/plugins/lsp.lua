@@ -1,3 +1,5 @@
+local border_style = { border = "rounded" }
+
 return {
   "williamboman/mason-lspconfig.nvim",
   dependencies = {
@@ -5,7 +7,7 @@ return {
       "williamboman/mason.nvim",
       build = ":MasonUpdate",
       config = function()
-        require("mason").setup()
+        require("mason").setup({ ui = border_style })
       end
     },
     "neovim/nvim-lspconfig",
@@ -20,8 +22,6 @@ return {
     }
   },
   config = function()
-    local border_style   = { border = "rounded" }
-
     local signature_help = function() vim.lsp.buf.signature_help(border_style) end
     local hover          = function() vim.lsp.buf.hover(border_style) end
 
