@@ -20,25 +20,49 @@ return {
     }
   },
   config = function()
-    local server_configs = {
-      clangd = {
-        cmd = {
-          "clangd",
-          "--clang-tidy",
-          "--background-index",
-          "--suggest-missing-includes",
-          "--completion-style=detailed",
-          "--cross-file-rename",
-          "--header-insertion=iwyu"
-        },
-        init_options = {
-          clangdFileStatus = true,
-          usePlaceholders = true,
-          completeUnimported = true,
-          semanticHighlighting = true
+    local border_style   = { border = "rounded" }
+
+    local signature_help = function() vim.lsp.buf.signature_help(border_style) end
+    local hover          = function() vim.lsp.buf.hover(border_style) end
+
+    vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "Code Action" })
+    vim.keymap.set("n", "<LEADER>lr", vim.lsp.buf.rename, { desc = "Rename" })
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Definition" })
+    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
+    vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Floating Diagnostic" })
+    vim.keymap.set("n", "go", vim.lsp.buf.type_definition, { desc = "Type Definition" })
+    vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References" })
+    vim.keymap.set("n", "gs", signature_help, { desc = "Signature" })
+    vim.keymap.set("n", "K", hover, { desc = "Signature" })
+
+    require("lspconfig.ui.windows").default_options = border_style
+    vim.diagnostic.config({ float = border_style })
+
+    vim.lsp.config("clangd", {
+      cmd = {
+        "clangd",
+        "--clang-tidy",
+        "--background-index",
+        "--suggest-missing-includes",
+        "--completion-style=detailed",
+        "--cross-file-rename",
+        "--header-insertion=iwyu"
+      },
+      init_options = {
+        clangdFileStatus = true,
+        usePlaceholders = true,
+        completeUnimported = true,
+        semanticHighlighting = true
+      }
+    })
+
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          diagnostics = { globals = { "vim" } }
         }
       }
-    }
+    })
 
     require("mason-lspconfig").setup({
       ensure_installed = {
@@ -51,22 +75,7 @@ return {
         "rust_analyzer",
         "ts_ls"
       },
-      automatic_installation = true,
-    })
-
-    require("mason-lspconfig").setup_handlers({
-      function(server)
-        require("lspconfig")[server].setup(server_configs[server] or {})
-      end,
-      ["lua_ls"] = function()
-        require("lspconfig").lua_ls.setup({
-          settings = {
-            Lua = {
-              diagnostics = { globals = { "vim" } }
-            }
-          }
-        })
-      end
+      automatic_enable = true,
     })
 
     local cmp = require("cmp")
@@ -88,22 +97,5 @@ return {
         { name = "path" }
       }
     })
-
-    local border_style = { border = "rounded" }
-
-    require("lspconfig.ui.windows").default_options = border_style
-
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, border_style)
-    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, border_style)
-    vim.diagnostic.config({ float = border_style })
-
-    vim.keymap.set("n", "<LEADER>la", vim.lsp.buf.code_action, { desc = "Code Action" })
-    vim.keymap.set("n", "<LEADER>lr", vim.lsp.buf.rename, { desc = "Rename" })
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Definition" })
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Implementation" })
-    vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Floating Diagnostic" })
-    vim.keymap.set("n", "go", vim.lsp.buf.type_definition, { desc = "Type Definition" })
-    vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References" })
-    vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, { desc = "Signature" })
   end
 }

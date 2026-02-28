@@ -1,6 +1,6 @@
 local major = 0
-local minor = 10
-local patch = 4
+local minor = 11
+local patch = 6
 
 local version = vim.version()
 
